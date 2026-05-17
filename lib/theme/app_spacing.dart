@@ -21,4 +21,5 @@ class AppSpacing {
   static const SizedBox w8 = SizedBox(width: standard);
   static const SizedBox w16 = SizedBox(width: blocsUI);
   static const SizedBox w24 = SizedBox(width: sections);
+  static const SizedBox h48 = SizedBox(height: separationMajeure);
 }
