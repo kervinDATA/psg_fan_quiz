@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../features/auth/presentation/screens/splash_screen.dart';
 
 // Déclaration des constantes de chemins (Règles de nommage propres)
 class AppRoutes {
@@ -18,9 +19,7 @@ final goRouter = GoRouter(
   routes: [
     GoRoute(
       path: AppRoutes.splash,
-      builder: (context, state) => const Scaffold(
-        body: Center(child: Text('Écran Splash (Chargement...) 🔴🔵')),
-      ),
+      builder: (context, state) => const SplashScreen(),
     ),
     GoRoute(
       path: AppRoutes.onboarding,
