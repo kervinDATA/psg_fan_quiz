@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../features/auth/presentation/screens/splash_screen.dart';
+import '../../features/auth/presentation/screens/onboarding_screen.dart';
 
 // Déclaration des constantes de chemins (Règles de nommage propres)
 class AppRoutes {
@@ -23,9 +24,7 @@ final goRouter = GoRouter(
     ),
     GoRoute(
       path: AppRoutes.onboarding,
-      builder: (context, state) => const Scaffold(
-        body: Center(child: Text('Écran Onboarding 🚀')),
-      ),
+      builder: (context, state) => const OnboardingScreen(),
     ),
     GoRoute(
       path: AppRoutes.profileSetup,

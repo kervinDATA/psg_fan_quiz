@@ -6,16 +6,12 @@ import 'app_radius.dart';
 class AppTheme {
   AppTheme._();
 
-  // Thème Sombre Officiel - PSG Fan Quiz V1
   static ThemeData get darkTheme {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.dark,
-      
-      // Configuration de la couleur d'arrière-plan globale (Esprit Stade de nuit)
       scaffoldBackgroundColor: AppColors.noirProfond,
       
-      // Palette de couleurs structurelle
       colorScheme: const ColorScheme.dark(
         primary: AppColors.bleuPSG,
         secondary: AppColors.rougePSG,
@@ -23,16 +19,14 @@ class AppTheme {
         error: AppColors.rougeErreur,
       ),
 
-      // Configuration par défaut des bordures et styles de cartes
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: AppColors.grisFonce,
         elevation: 2.0,
         shape: RoundedRectangleBorder(
-          borderRadius: AppRadius.m, // Utilisation de l'arrondi Medium (16px)
+          borderRadius: AppRadius.m,
         ),
       ),
 
-      // Style par défaut des boutons principaux de l'application (Rouge PSG)
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.rougePSG,
@@ -46,7 +40,6 @@ class AppTheme {
         ),
       ),
 
-      // Configuration globale des barres d'applications (AppBar)
       appBarTheme: const AppBarTheme(
         backgroundColor: AppColors.bleuPSG,
         foregroundColor: AppColors.blanc,

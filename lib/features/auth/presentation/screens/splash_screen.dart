@@ -31,13 +31,14 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    // Le const global a été retiré ici
+    return Scaffold(
       backgroundColor: AppColors.noirProfond,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               'PSG FAN QUIZ',
               style: TextStyle(
                 fontSize: 36,
@@ -47,13 +48,13 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 8.0),
+              margin: const EdgeInsets.only(top: 8.0),
               width: 80,
               height: 4,
               color: AppColors.rougePSG,
             ),
-            AppSpacing.h32,
-            CircularProgressIndicator(
+            AppSpacing.h32, // Devient dynamique car configuré sans accents
+            const CircularProgressIndicator(
               valueColor: AlwaysStoppedAnimation<Color>(AppColors.rougePSG),
               strokeWidth: 3.0,
             ),
