@@ -4,6 +4,7 @@ import '../../../../theme/app_colors.dart';
 import '../../../../theme/app_radius.dart';
 import '../../../../theme/app_spacing.dart';
 import '../../../../theme/app_typography.dart';
+import '../../../../app/routes/app_router.dart';
 
 class CategoriesScreen extends StatelessWidget {
   const CategoriesScreen({super.key});
@@ -63,10 +64,8 @@ class CategoriesScreen extends StatelessWidget {
                       child: InkWell(
                         borderRadius: AppRadius.m,
                         onTap: () {
-                          // Futur accès à la boucle de jeu
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Lancement de la catégorie ${cat['title']}... ⏳')),
-                          );
+                          // On pousse l'écran du quiz et on lui donne le titre de la catégorie !
+                          context.push(AppRoutes.quiz, extra: cat['title'] as String);
                         },
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,

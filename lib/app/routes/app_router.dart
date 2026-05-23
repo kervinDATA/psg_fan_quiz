@@ -5,6 +5,7 @@ import '../../features/auth/presentation/screens/onboarding_screen.dart';
 import '../../features/auth/presentation/screens/profile_setup_screen.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
 import '../../features/categories/presentation/screens/categories_screen.dart';
+import '../../features/quiz/presentation/screens/quiz_screen.dart';
 
 // Déclaration des constantes de chemins (Règles de nommage propres)
 class AppRoutes {
@@ -15,6 +16,7 @@ class AppRoutes {
   static const String profileSetup = '/profile-setup';
   static const String home = '/home';
   static const String categories = '/categories';
+  static const String quiz = '/quiz';
 }
 
 // Configuration globale de GoRouter pour le MVP
@@ -41,6 +43,14 @@ final goRouter = GoRouter(
     GoRoute(
       path: AppRoutes.categories,
       builder: (context, state) => const CategoriesScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.quiz,
+      builder: (context, state) {
+        // On récupère le nom de la catégorie passé en paramètre invisible (extra)
+        final categoryName = state.extra as String;
+        return QuizScreen(category: categoryName);
+      },
     ),
   ],
 );
