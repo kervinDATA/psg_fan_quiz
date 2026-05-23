@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "316328180124",
+    "project_id": "psg-fan-quiz",
+    "storage_bucket": "psg-fan-quiz.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:316328180124:android:a0d1235fb2696599027059",
+        "android_client_info": {
+          "package_name": "com.psg_fan_quiz.psg_fan_quiz"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTL3WdLtmSnVMOVlYLoriiRc_dRmn-vm0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
