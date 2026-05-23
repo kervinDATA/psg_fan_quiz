@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import '../../features/auth/presentation/screens/splash_screen.dart';
 import '../../features/auth/presentation/screens/onboarding_screen.dart';
 import '../../features/auth/presentation/screens/profile_setup_screen.dart';
+import '../../features/home/presentation/screens/home_screen.dart';
+import '../../features/categories/presentation/screens/categories_screen.dart';
 
 // Déclaration des constantes de chemins (Règles de nommage propres)
 class AppRoutes {
@@ -12,6 +14,7 @@ class AppRoutes {
   static const String onboarding = '/onboarding';
   static const String profileSetup = '/profile-setup';
   static const String home = '/home';
+  static const String categories = '/categories';
 }
 
 // Configuration globale de GoRouter pour le MVP
@@ -33,9 +36,11 @@ final goRouter = GoRouter(
     ),
     GoRoute(
       path: AppRoutes.home,
-      builder: (context, state) => const Scaffold(
-        body: Center(child: Text('Écran Accueil - Ici c\'est Paris ! 🏟️')),
-      ),
+      builder: (context, state) => const HomeScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.categories,
+      builder: (context, state) => const CategoriesScreen(),
     ),
   ],
 );

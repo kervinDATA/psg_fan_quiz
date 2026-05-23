@@ -3,6 +3,8 @@ import '../../../../theme/app_colors.dart';
 import '../../../../theme/app_radius.dart';
 import '../../../../theme/app_spacing.dart';
 import '../../../../theme/app_typography.dart';
+import 'package:go_router/go_router.dart';
+import '../../../../app/routes/app_router.dart';
 
 class ProfileSetupScreen extends StatefulWidget {
   const ProfileSetupScreen({super.key});
@@ -39,6 +41,9 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
           backgroundColor: AppColors.vertSucces,
         ),
       );
+
+      // Redirection vers l'écran d'Accueil
+      context.go(AppRoutes.home);
     }
   }
 
