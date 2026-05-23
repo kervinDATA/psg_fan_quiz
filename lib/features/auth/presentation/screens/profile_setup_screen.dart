@@ -31,12 +31,12 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
     super.dispose();
   }
 
-  void _onPlayPressed() {
+  // 🔴 LA FONCTION CORRIGÉE AVEC ASYNC/AWAIT
+  Future<void> _onPlayPressed() async {
     if (_formKey.currentState!.validate()) {
       final pseudo = _pseudoController.text.trim();
-      final avatar = _avatars[_selectedAvatarIndex]; // On récupère l'émoji choisi
+      final avatar = _avatars[_selectedAvatarIndex];
       
-      // On affiche le pseudo ET l'avatar dans la notification de succès
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Bienvenue au Parc, $pseudo $avatar ! 🔴🔵'),
@@ -44,11 +44,13 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
         ),
       );
 
-      // 🔴 NOUVEAU : On sauvegarde les données dans Riverpod
-      ref.read(playerProvider.notifier).createProfile(pseudo, avatar);
+      // On attend que le profil soit créé dans Firebase
+      await ref.read(playerProvider.notifier).createProfile(pseudo, avatar);
 
-      // Redirection vers l'écran d'Accueil
-      context.go(AppRoutes.home);
+      // On navigue vers l'accueil uniquement si tout s'est bien passé
+      if (context.mounted) {
+        context.go(AppRoutes.home);
+      }
     }
   }
 
@@ -67,7 +69,6 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
                 children: [
                   AppSpacing.h32,
                   
-                  // Titre immersif
                   Text(
                     'REJOINS LE CLUB',
                     style: AppTypography.h1.copyWith(letterSpacing: 2.0),
@@ -81,14 +82,12 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
                   
                   AppSpacing.h32,
 
-                  // Section Titre des Avatars
                   Text(
                     'CHOISIS TON AVATAR',
                     style: AppTypography.h3.copyWith(color: AppColors.blanc, letterSpacing: 1.0),
                   ),
                   AppSpacing.h16,
                   
-                  // Grille interactive des Avatars (2 lignes de 4 colonnes) [cite: 380, 386]
                   GridView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
@@ -103,7 +102,7 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
                       return GestureDetector(
                         onTap: () {
                           setState(() {
-                            _selectedAvatarIndex = index; // Met à jour l'avatar cliqué
+                            _selectedAvatarIndex = index;
                           });
                         },
                         child: AnimatedContainer(
@@ -131,7 +130,6 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
 
                   AppSpacing.h32,
 
-                  // Champ de saisie du Pseudo
                   TextFormField(
                     controller: _pseudoController,
                     style: AppTypography.body.copyWith(color: AppColors.blanc),
@@ -176,11 +174,18 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
 
                   AppSpacing.h48,
 
-                  // Bouton d'action "ENTRER AU PARC"
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: _onPlayPressed,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.rougePSG,
+                        foregroundColor: AppColors.blanc,
+                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: AppRadius.s,
+                        ),
+                      ),
                       child: const Text('ENTRER AU PARC'),
                     ),
                   ),
