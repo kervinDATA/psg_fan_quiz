@@ -5,12 +5,16 @@ import '../../../../theme/app_spacing.dart';
 import '../../../../theme/app_typography.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../app/routes/app_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../shared/providers/player_provider.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // 🔴 NOUVEAU : On lit le profil en mémoire
+    final player = ref.watch(playerProvider);
     return Scaffold(
       backgroundColor: AppColors.noirProfond,
       body: SafeArea(
@@ -31,15 +35,21 @@ class HomeScreen extends StatelessWidget {
                           color: AppColors.grisFonce,
                           shape: BoxShape.circle,
                         ),
-                        child: const Text('🏆', style: TextStyle(fontSize: 24)),
+                        child: Text(
+                          player?.avatar ?? '⚽', // L'avatar dynamique
+                          style: const TextStyle(fontSize: 24),
+                        ),
                       ),
                       AppSpacing.w16,
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('TitiParisien', style: AppTypography.h3),
                           Text(
-                            'Niveau 7 • 1250 XP',
+                            player?.pseudo ?? 'Supporter', // Le pseudo dynamique
+                            style: AppTypography.h3,
+                          ),
+                          Text(
+                            'Niveau ${player?.level ?? 1} • ${player?.xp ?? 0} XP', // L'XP dynamique
                             style: AppTypography.caption.copyWith(color: AppColors.jauneXP),
                           ),
                         ],

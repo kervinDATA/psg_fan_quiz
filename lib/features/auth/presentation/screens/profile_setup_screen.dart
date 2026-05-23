@@ -5,15 +5,17 @@ import '../../../../theme/app_spacing.dart';
 import '../../../../theme/app_typography.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../app/routes/app_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../shared/providers/player_provider.dart';
 
-class ProfileSetupScreen extends StatefulWidget {
+class ProfileSetupScreen extends ConsumerStatefulWidget {
   const ProfileSetupScreen({super.key});
 
   @override
-  State<ProfileSetupScreen> createState() => _ProfileSetupScreenState();
+  ConsumerState<ProfileSetupScreen> createState() => _ProfileSetupScreenState();
 }
 
-class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
+class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
   final _pseudoController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   
@@ -41,6 +43,9 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
           backgroundColor: AppColors.vertSucces,
         ),
       );
+
+      // 🔴 NOUVEAU : On sauvegarde les données dans Riverpod
+      ref.read(playerProvider.notifier).createProfile(pseudo, avatar);
 
       // Redirection vers l'écran d'Accueil
       context.go(AppRoutes.home);
