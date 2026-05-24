@@ -6,6 +6,7 @@ import '../../features/auth/presentation/screens/profile_setup_screen.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
 import '../../features/categories/presentation/screens/categories_screen.dart';
 import '../../features/quiz/presentation/screens/quiz_screen.dart';
+import '../../features/leaderboard/presentation/screens/leaderboard_screen.dart';
 
 // Déclaration des constantes de chemins (Règles de nommage propres)
 class AppRoutes {
@@ -17,6 +18,7 @@ class AppRoutes {
   static const String home = '/home';
   static const String categories = '/categories';
   static const String quiz = '/quiz';
+  static const String leaderboard = '/leaderboard';
 }
 
 // Configuration globale de GoRouter pour le MVP
@@ -51,6 +53,10 @@ final goRouter = GoRouter(
         final categoryName = state.extra as String;
         return QuizScreen(category: categoryName);
       },
+    ),
+    GoRoute(
+      path: AppRoutes.leaderboard,
+      builder: (context, state) => const LeaderboardScreen(),
     ),
   ],
 );

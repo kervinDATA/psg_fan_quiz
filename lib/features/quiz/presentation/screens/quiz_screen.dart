@@ -5,9 +5,10 @@ import '../../../../theme/app_colors.dart';
 import '../../../../theme/app_radius.dart';
 import '../../../../theme/app_spacing.dart';
 import '../../../../theme/app_typography.dart';
-import '../../data/repositories/mock_quiz_repository.dart';
+import '../../data/repositories/remote_quiz_repository.dart';
 import '../../domain/models/question.dart';
 import '../../../../shared/providers/player_provider.dart';
+import '../../data/repositories/quiz_result_repository.dart';
 
 // On demande la catégorie en paramètre pour savoir quelles questions charger
 class QuizScreen extends ConsumerStatefulWidget {
@@ -19,17 +20,29 @@ class QuizScreen extends ConsumerStatefulWidget {
 }
 
 class _QuizScreenState extends ConsumerState<QuizScreen> {
-  late List<Question> _questions;
+  List<Question> _questions = []; // Plus besoin du 'late'
+  bool _isLoading = true; // 👈 NOUVEAU : On gère l'état de chargement
   int _currentIndex = 0;
   int _score = 0;
+  int _correctAnswersCount = 0; // 👈 NOUVEAU : Compteur de bonnes réponses
   int? _selectedAnswerIndex;
   bool _isAnswered = false;
 
   @override
   void initState() {
     super.initState();
-    // On charge les questions via Riverpod dès l'ouverture de l'écran
-    _questions = ref.read(quizRepositoryProvider).getQuestionsForCategory(widget.category);
+    _loadQuestions(); // 👈 NOUVEAU : On lance le chargement asynchrone
+  }
+
+  // 🔴 NOUVEAU : Fonction asynchrone pour interroger Firestore
+  Future<void> _loadQuestions() async {
+    final questions = await ref.read(remoteQuizRepositoryProvider).getQuestionsForCategory(widget.category);
+    if (mounted) {
+      setState(() {
+        _questions = questions;
+        _isLoading = false; // Le chargement est terminé !
+      });
+    }
   }
 
   void _submitAnswer(int index) {
@@ -41,6 +54,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
       // Vérifie si la réponse est correcte
       if (index == _questions[_currentIndex].correctAnswerIndex) {
         _score += 25; // 25 XP par bonne réponse
+        _correctAnswersCount++; // 👈 NOUVEAU : On incrémente le compteur
       }
     });
   }
@@ -54,9 +68,23 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
         _isAnswered = false;
       });
     } else {
-      // 🔴 NOUVEAU : On envoie l'XP gagnée au cerveau Riverpod !
-      ref.read(playerProvider.notifier).addXp(_score);
+      // On récupère le joueur actuel pour avoir son ID
+      final player = ref.read(playerProvider);
       
+      if (player != null) {
+        // 🔴 NOUVEAU : On sauvegarde l'historique de la partie dans Firestore
+        ref.read(quizResultRepositoryProvider).saveResult(
+          userId: player.id,
+          categoryId: widget.category,
+          score: _score,
+          correctAnswers: _correctAnswersCount,
+          totalQuestions: _questions.length,
+        );
+      }
+
+      // On envoie l'XP gagnée au cerveau Riverpod !
+      ref.read(playerProvider.notifier).addXp(_score);
+
       // Fin du quiz : On affiche le score et on retourne aux catégories
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -70,6 +98,16 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // 🔴 NOUVEAU : On affiche le loader pendant l'appel à Firebase
+    if (_isLoading) {
+      return const Scaffold(
+        backgroundColor: AppColors.noirProfond,
+        body: Center(
+          child: CircularProgressIndicator(color: AppColors.rougePSG),
+        ),
+      );
+    }
+
     // Sécurité si la catégorie n'a pas de questions
     if (_questions.isEmpty) {
       return Scaffold(

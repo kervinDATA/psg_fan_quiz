@@ -7,6 +7,8 @@ import '../../../../theme/app_radius.dart';
 import '../../../../theme/app_spacing.dart';
 import '../../../../theme/app_typography.dart';
 import '../../../../shared/providers/player_provider.dart';
+import '../../../../features/leaderboard/presentation/screens/leaderboard_screen.dart';
+import '../../../../features/profile/presentation/screens/profile_screen.dart';
 
 // 1. L'écran devient Stateful pour mémoriser l'onglet sélectionné
 class HomeScreen extends ConsumerStatefulWidget {
@@ -40,17 +42,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     // 2. Liste des différentes "vues" (pages) de la barre de navigation
     final List<Widget> pages = [
       _buildAccueilContent(context, player), // Index 0 : L'Accueil complet
-      const SizedBox.shrink(), // Index 1 : Vide, car on navigue via GoRouter (Catégories)
-      const Center( // Index 2 : Classement (En construction)
-        child: Text('Classement en construction... 🏆\n(Bientôt branché à Firebase)', 
-          textAlign: TextAlign.center,
-          style: TextStyle(color: AppColors.blanc, fontSize: 18)),
-      ),
-      const Center( // Index 3 : Profil (En construction)
-        child: Text('Profil en construction... ⚙️\n(Pour modifier son avatar)', 
-          textAlign: TextAlign.center,
-          style: TextStyle(color: AppColors.blanc, fontSize: 18)),
-      ),
+      const SizedBox.shrink(),
+      const LeaderboardScreen(), // Index 1 : Vide, car on navigue via GoRouter (Catégories)
+      const ProfileScreen(), // On branche l'écran Profil !
     ];
 
     return Scaffold(
