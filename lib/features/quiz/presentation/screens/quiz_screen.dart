@@ -9,6 +9,7 @@ import '../../data/repositories/remote_quiz_repository.dart';
 import '../../domain/models/question.dart';
 import '../../../../shared/providers/player_provider.dart';
 import '../../data/repositories/quiz_result_repository.dart';
+import '../../../../app/routes/app_router.dart';
 
 // On demande la catégorie en paramètre pour savoir quelles questions charger
 class QuizScreen extends ConsumerStatefulWidget {
@@ -85,14 +86,15 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
       // On envoie l'XP gagnée au cerveau Riverpod !
       ref.read(playerProvider.notifier).addXp(_score);
 
-      // Fin du quiz : On affiche le score et on retourne aux catégories
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Quiz terminé ! Tu as gagné $_score XP 🏆'),
-          backgroundColor: AppColors.bleuPSG,
-        ),
+      // 🔴 NOUVEAU : Fin du quiz, on navigue vers le bel écran de résultat en passant les stats !
+      context.go(
+        AppRoutes.result,
+        extra: {
+          'score': _score,
+          'correctAnswers': _correctAnswersCount,
+          'totalQuestions': _questions.length,
+        },
       );
-      context.pop(); 
     }
   }
 
