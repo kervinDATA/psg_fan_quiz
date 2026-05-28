@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../app/routes/app_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../shared/providers/player_provider.dart';
+import '../../data/repositories/auth_repository.dart';
 
 class ProfileSetupScreen extends ConsumerStatefulWidget {
   const ProfileSetupScreen({super.key});
@@ -36,20 +37,31 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
     if (_formKey.currentState!.validate()) {
       final pseudo = _pseudoController.text.trim();
       final avatar = _avatars[_selectedAvatarIndex];
-      
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Bienvenue au Parc, $pseudo $avatar ! 🔴🔵'),
-          backgroundColor: AppColors.vertSucces,
-        ),
-      );
 
-      // On attend que le profil soit créé dans Firebase
-      await ref.read(playerProvider.notifier).createProfile(pseudo, avatar);
+      // 🔴 NOUVEAU : On récupère l'identifiant secret généré par le SplashScreen
+      final user = ref.read(authRepositoryProvider).currentUser;
 
-      // On navigue vers l'accueil uniquement si tout s'est bien passé
-      if (context.mounted) {
-        context.go(AppRoutes.home);
+      if (user != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Bienvenue au Parc, $pseudo $avatar ! 🔴🔵'),
+            backgroundColor: AppColors.vertSucces,
+          ),
+        );
+
+        // 🔴 NOUVEAU : On passe l'UID à createProfile
+        await ref.read(playerProvider.notifier).createProfile(pseudo, avatar, user.uid);
+
+        if (context.mounted) {
+          context.go(AppRoutes.home);
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Erreur de connexion. Vérifie ton réseau.'),
+            backgroundColor: AppColors.rougeErreur,
+          ),
+        );
       }
     }
   }

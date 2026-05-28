@@ -1,37 +1,54 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../app/routes/app_router.dart';
 import '../../../../theme/app_colors.dart';
 import '../../../../theme/app_spacing.dart';
+import '../../../../shared/providers/player_provider.dart';
+import '../../data/repositories/auth_repository.dart';
 
-class SplashScreen extends StatefulWidget {
+// 🔴 NOUVEAU : On passe en ConsumerStatefulWidget pour lire Riverpod
+class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  ConsumerState<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // Déclenchement de la simulation de chargement
-    _startLoadingDelay();
+    _authenticateAndRoute(); // 👈 On lance l'analyse au démarrage
   }
 
-  void _startLoadingDelay() {
-    // Attente de 3 secondes avant de rediriger
-    Future.delayed(const Duration(seconds: 3), () {
+  Future<void> _authenticateAndRoute() async {
+    // 1. Connexion anonyme silencieuse via notre repository
+    final user = await ref.read(authRepositoryProvider).signInAnonymously();
+    
+    if (user != null) {
+      // 2. On demande à la base de données si ce téléphone a déjà un profil
+      final profileExists = await ref.read(playerProvider.notifier).loadProfile(user.uid);
+      
       if (mounted) {
-        // Redirection vers l'onboarding via GoRouter
+        if (profileExists) {
+          // Si le profil existe, on zappe l'Onboarding et on va direct au Stade !
+          context.go(AppRoutes.home);
+        } else {
+          // Sinon, c'est un nouveau supporter
+          context.go(AppRoutes.onboarding);
+        }
+      }
+    } else {
+      // En cas de problème de connexion internet, on va vers l'Onboarding
+      if (mounted) {
         context.go(AppRoutes.onboarding);
       }
-    });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    // Le const global a été retiré ici
     return Scaffold(
       backgroundColor: AppColors.noirProfond,
       body: Center(
@@ -53,7 +70,7 @@ class _SplashScreenState extends State<SplashScreen> {
               height: 4,
               color: AppColors.rougePSG,
             ),
-            AppSpacing.h32, // Devient dynamique car configuré sans accents
+            AppSpacing.h32,
             const CircularProgressIndicator(
               valueColor: AlwaysStoppedAnimation<Color>(AppColors.rougePSG),
               strokeWidth: 3.0,

@@ -1,9 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:cloud_firestore/cloud_firestore.dart'; // 👈 Le nouvel import
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-// 1. Le Modèle de données (on lui ajoute un ID unique)
+// 1. Le Modèle de données (Inchangé)
 class PlayerProfile {
-  final String id; // 🔴 NOUVEAU : L'identifiant secret du document dans le cloud
+  final String id;
   final String pseudo;
   final String avatar;
   final int level;
@@ -34,33 +34,51 @@ class PlayerProfile {
   }
 }
 
-// 2. Le Notifier (Le cerveau qui parle maintenant au Cloud)
+// 2. Le Notifier
 class PlayerNotifier extends Notifier<PlayerProfile?> {
-  // Instance de la base de données
   final _db = FirebaseFirestore.instance;
 
   @override
   PlayerProfile? build() {
-    return null; 
+    return null;
   }
 
-  // 🔴 NOUVEAU : On utilise 'async' pour attendre que Google réponde
-  Future<void> createProfile(String pseudo, String avatar) async {
-    // 1. On prépare le petit colis de données pour Firestore
+  // 🔴 NOUVEAU : Fonction pour charger un profil existant au démarrage
+  Future<bool> loadProfile(String uid) async {
+    try {
+      final doc = await _db.collection('users').doc(uid).get();
+      if (doc.exists && doc.data() != null) {
+        final data = doc.data()!;
+        state = PlayerProfile(
+          id: doc.id,
+          pseudo: data['pseudo'] ?? 'Supporter',
+          avatar: data['avatar'] ?? '⚽',
+          level: data['level'] ?? 1,
+          xp: data['xp'] ?? 0,
+        );
+        return true; // Profil trouvé et chargé !
+      }
+    } catch (e) {
+      print("Erreur de chargement du profil: $e");
+    }
+    return false; // Aucun profil trouvé
+  }
+
+  // 🔴 MODIFIÉ : On utilise l'UID d'authentification pour cibler le document avec .set()
+  Future<void> createProfile(String pseudo, String avatar, String uid) async {
     final data = {
       'pseudo': pseudo,
       'avatar': avatar,
       'level': 1,
       'xp': 0,
-      'createdAt': FieldValue.serverTimestamp(), // Date exacte du serveur
+      'createdAt': FieldValue.serverTimestamp(),
     };
 
-    // 2. On envoie le colis dans la collection 'users', Google nous renvoie le document créé
-    final docRef = await _db.collection('users').add(data);
+    // On force l'ID du document à être l'ID de connexion du téléphone
+    await _db.collection('users').doc(uid).set(data);
 
-    // 3. On met à jour l'écran avec l'ID généré !
     state = PlayerProfile(
-      id: docRef.id,
+      id: uid,
       pseudo: pseudo,
       avatar: avatar,
       level: 1,
@@ -68,25 +86,23 @@ class PlayerNotifier extends Notifier<PlayerProfile?> {
     );
   }
 
-  // 🔴 NOUVEAU : Mise à jour de l'XP dans les nuages
+  // Ajout de l'XP (Inchangé)
   void addXp(int earnedXp) {
-    if (state == null) return; 
+    if (state == null) return;
 
     final newXp = state!.xp + earnedXp;
-    final newLevel = 1 + (newXp ~/ 100); 
+    final newLevel = 1 + (newXp ~/ 100);
 
-    // 1. On dit à Firestore de mettre à jour uniquement l'XP et le Niveau de ce joueur
     _db.collection('users').doc(state!.id).update({
       'xp': newXp,
       'level': newLevel,
     });
 
-    // 2. On met à jour l'écran visuellement
     state = state!.copyWith(xp: newXp, level: newLevel);
   }
 }
 
-// 3. Le Provider
+// 3. Le Provider (Inchangé)
 final playerProvider = NotifierProvider<PlayerNotifier, PlayerProfile?>(() {
   return PlayerNotifier();
 });
