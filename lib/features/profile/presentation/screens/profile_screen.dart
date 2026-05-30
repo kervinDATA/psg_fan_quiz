@@ -5,6 +5,9 @@ import '../../../../theme/app_colors.dart';
 import '../../../../theme/app_radius.dart';
 import '../../../../theme/app_spacing.dart';
 import '../../../../theme/app_typography.dart';
+import 'package:go_router/go_router.dart';
+import '../../../../app/routes/app_router.dart';
+import '../../../auth/data/repositories/auth_repository.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
@@ -65,16 +68,23 @@ class ProfileScreen extends ConsumerWidget {
                   SizedBox(
                     width: double.infinity,
                     child: OutlinedButton.icon(
-                      onPressed: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Fonctionnalité de déconnexion à venir...')),
-                        );
+                      onPressed: () async {
+                        // 1. On appelle Firebase pour déconnecter le joueur
+                        await ref.read(authRepositoryProvider).signOut();
+
+                        // 2. On nettoie la mémoire locale du joueur (optionnel mais très propre)
+                        ref.invalidate(playerProvider);
+
+                        // 3. On le renvoie sur l'écran d'authentification
+                        if (context.mounted) {
+                          context.go(AppRoutes.auth);
+                        }
                       },
-                      icon: const Icon(Icons.settings, color: AppColors.grisClair),
-                      label: const Text('PARAMÈTRES DU COMPTE'),
+                      icon: const Icon(Icons.logout, color: AppColors.rougeErreur),
+                      label: const Text('SE DÉCONNECTER'),
                       style: OutlinedButton.styleFrom(
-                        foregroundColor: AppColors.grisClair,
-                        side: const BorderSide(color: AppColors.grisFonce),
+                        foregroundColor: AppColors.rougeErreur,
+                        side: const BorderSide(color: AppColors.rougeErreur),
                         padding: const EdgeInsets.symmetric(vertical: 16.0),
                         shape: RoundedRectangleBorder(borderRadius: AppRadius.m),
                       ),

@@ -7,6 +7,7 @@ import '../../../../theme/app_spacing.dart';
 import '../../../../theme/app_typography.dart';
 import '../../../../theme/app_radius.dart';
 import '../../data/repositories/auth_repository.dart';
+import '../../../../shared/providers/player_provider.dart';
 
 class AuthScreen extends ConsumerStatefulWidget {
   const AuthScreen({super.key});
@@ -41,8 +42,13 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
       final password = _passwordController.text.trim();
 
       if (_isLogin) {
-        await authRepo.signInWithEmail(email, password);
-        // Si c'est une connexion, le profil existe déjà, on va à l'accueil
+        final user = await authRepo.signInWithEmail(email, password);
+        
+        // 🔴 NOUVEAU : On télécharge le profil dans la mémoire AVANT d'aller à l'accueil
+        if (user != null) {
+          await ref.read(playerProvider.notifier).loadProfile(user.uid);
+        }
+        
         if (mounted) context.go(AppRoutes.home);
       } else {
         await authRepo.signUpWithEmail(email, password);
