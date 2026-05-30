@@ -32,8 +32,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         curve: Curves.easeInOut,
       );
     } else {
-      // Si on est au dernier slide, on redirige vers la création de profil [cite: 105]
-      context.go(AppRoutes.profileSetup);
+      // 🔴 NOUVEAU : Fin de l'Onboarding, direction la création de compte !
+      context.go(AppRoutes.auth);
     }
   }
 
@@ -50,7 +50,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               Align(
                 alignment: Alignment.topRight,
                 child: TextButton(
-                  onPressed: () => context.go(AppRoutes.profileSetup),
+                  // 🔴 NOUVEAU : Le bouton "Passer" envoie aussi vers la connexion
+                  onPressed: () => context.go(AppRoutes.auth),
                   child: Text(
                     'Passer',
                     style: AppTypography.small.copyWith(

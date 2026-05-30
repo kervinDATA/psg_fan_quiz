@@ -23,26 +23,26 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   }
 
   Future<void> _authenticateAndRoute() async {
-    // 1. Connexion anonyme silencieuse via notre repository
-    final user = await ref.read(authRepositoryProvider).signInAnonymously();
-    
+    // 1. On regarde si un utilisateur est déjà connecté en mémoire
+    final user = ref.read(authRepositoryProvider).currentUser;
+
+    await Future.delayed(const Duration(seconds: 2)); // Petit délai visuel
+
     if (user != null) {
-      // 2. On demande à la base de données si ce téléphone a déjà un profil
+      // 2. S'il est connecté, on charge son profil
       final profileExists = await ref.read(playerProvider.notifier).loadProfile(user.uid);
-      
+
       if (mounted) {
         if (profileExists) {
-          // Si le profil existe, on zappe l'Onboarding et on va direct au Stade !
-          context.go(AppRoutes.home);
+          context.go(AppRoutes.home); // Direction le jeu
         } else {
-          // Sinon, c'est un nouveau supporter
-          context.go(AppRoutes.onboarding);
+          context.go(AppRoutes.profileSetup); // Il s'est inscrit mais n'a pas fini son profil
         }
       }
     } else {
-      // En cas de problème de connexion internet, on va vers l'Onboarding
+      // 3. 🔴 NOUVEAU : Aucun utilisateur connecté, on l'envoie découvrir l'application sur l'Onboarding
       if (mounted) {
-        context.go(AppRoutes.onboarding);
+        context.go(AppRoutes.onboarding); 
       }
     }
   }

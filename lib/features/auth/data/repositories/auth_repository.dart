@@ -1,26 +1,46 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-/// Repository chargé de l'authentification des joueurs
 class AuthRepository {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  /// Connecte l'utilisateur de manière silencieuse et invisible
-  Future<User?> signInAnonymously() async {
+  // 🔴 NOUVEAU : Inscription
+  Future<User?> signUpWithEmail(String email, String password) async {
     try {
-      final userCredential = await _auth.signInAnonymously();
-      return userCredential.user;
+      final credential = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      return credential.user;
     } catch (e) {
-      print("Erreur d'authentification anonyme : $e");
-      return null;
+      print("Erreur d'inscription : $e");
+      throw e; // On renvoie l'erreur pour l'afficher dans l'UI
     }
   }
 
-  /// Permet de vérifier si un joueur est déjà connecté sur ce téléphone
+  // 🔴 NOUVEAU : Connexion
+  Future<User?> signInWithEmail(String email, String password) async {
+    try {
+      final credential = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      return credential.user;
+    } catch (e) {
+      print("Erreur de connexion : $e");
+      throw e;
+    }
+  }
+
+  // 🔴 NOUVEAU : Déconnexion
+  Future<void> signOut() async {
+    await _auth.signOut();
+  }
+
+  // L'utilisateur actuellement connecté
   User? get currentUser => _auth.currentUser;
 }
 
-// Le Provider pour rendre ce service accessible via Riverpod
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
   return AuthRepository();
 });
