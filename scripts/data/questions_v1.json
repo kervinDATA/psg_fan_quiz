@@ -1,0 +1,122 @@
+[
+  {
+    "categoryId": "Histoire",
+    "text": "En quelle année le Paris Saint-Germain a-t-il été officiellement fondé ?",
+    "options": [
+      "1965",
+      "1970",
+      "1974",
+      "1982"
+    ],
+    "correctAnswerIndex": 1,
+    "explanation": "Le PSG est né le 12 août 1970 de la fusion entre le Paris Football Club et le Stade Saint-Germain."
+  },
+  {
+    "categoryId": "Histoire",
+    "text": "Quelle marque a été le sponsor maillot iconique du PSG de 1974 à 1991 ?",
+    "options": [
+      "Fly Emirates",
+      "Opel",
+      "Commodore",
+      "RTL"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "RTL a été le sponsor maillot historique du club pendant 17 ans, marquant les premières grandes heures du PSG."
+  },
+  {
+    "categoryId": "Légendes",
+    "text": "Quel joueur a remporté le Ballon d'Or en 1995 alors qu'il évoluait au PSG durant la première moitié de l'année ?",
+    "options": [
+      "Ronaldinho",
+      "George Weah",
+      "David Ginola",
+      "Raí"
+    ],
+    "correctAnswerIndex": 1,
+    "explanation": "George Weah a remporté le Ballon d'Or en 1995. Il a joué la première moitié de l'année au PSG avant d'être transféré à l'AC Milan."
+  },
+  {
+    "categoryId": "Légendes",
+    "text": "Combien de buts Zlatan Ibrahimović a-t-il marqués sous les couleurs du Paris Saint-Germain ?",
+    "options": [
+      "156",
+      "138",
+      "172",
+      "200"
+    ],
+    "correctAnswerIndex": 0,
+    "explanation": "Zlatan a inscrit 156 buts toutes compétitions confondues, marquant à jamais l'ère QSI du club."
+  },
+  {
+    "categoryId": "Classico",
+    "text": "Quel est le score du célèbre Classico remporté par le PSG au Stade Vélodrome en février 2017 ?",
+    "options": [
+      "0-3",
+      "1-4",
+      "1-5",
+      "0-4"
+    ],
+    "correctAnswerIndex": 2,
+    "explanation": "Le PSG s'est imposé 5-1 au Vélodrome, signant l'une des plus larges victoires parisiennes en terre marseillaise."
+  },
+  {
+    "categoryId": "Ligue des Champions",
+    "text": "Contre quelle équipe le PSG a-t-il disputé la première finale de Ligue des Champions de son histoire en 2020 ?",
+    "options": [
+      "Real Madrid",
+      "Bayern Munich",
+      "Liverpool",
+      "Manchester City"
+    ],
+    "correctAnswerIndex": 1,
+    "explanation": "Le PSG s'est incliné 1-0 face au Bayern Munich lors du 'Final 8' organisé exceptionnellement à Lisbonne."
+  },
+  {
+    "categoryId": "Parc des Princes",
+    "text": "Quelle est la capacité d'accueil approximative du Parc des Princes en configuration match ?",
+    "options": [
+      "38 000 places",
+      "48 000 places",
+      "58 000 places",
+      "68 000 places"
+    ],
+    "correctAnswerIndex": 1,
+    "explanation": "Le Parc des Princes peut accueillir environ 48 000 spectateurs (précisément 47 929), offrant une acoustique et une ambiance uniques."
+  },
+  {
+    "categoryId": "Entraîneurs",
+    "text": "Qui était l'entraîneur du PSG lors de la victoire historique en Coupe d'Europe des Vainqueurs de Coupe (C2) en 1996 ?",
+    "options": [
+      "Artur Jorge",
+      "Carlo Ancelotti",
+      "Luis Fernandez",
+      "Laurent Blanc"
+    ],
+    "correctAnswerIndex": 2,
+    "explanation": "Luis Fernandez, ancien joueur emblématique du club, entraînait l'équipe lors de cette victoire fondatrice contre le Rapid Vienne (1-0)."
+  },
+  {
+    "categoryId": "Statistiques",
+    "text": "Quel défenseur brésilien a dépassé Jean-Marc Pilorget pour devenir le joueur le plus capé de l'histoire du PSG ?",
+    "options": [
+      "Thiago Silva",
+      "Marquinhos",
+      "Maxwell",
+      "Alex"
+    ],
+    "correctAnswerIndex": 1,
+    "explanation": "Le capitaine Marquinhos a dépassé la barre mythique des 435 matchs de Jean-Marc Pilorget au printemps 2024."
+  },
+  {
+    "categoryId": "Saison Actuelle",
+    "text": "Quel joueur argentin a porté le numéro 27 à son arrivée en 2011 avant de récupérer le mythique numéro 10 ?",
+    "options": [
+      "Angel Di Maria",
+      "Javier Pastore",
+      "Lionel Messi",
+      "Ezequiel Lavezzi"
+    ],
+    "correctAnswerIndex": 1,
+    "explanation": "Javier Pastore, surnommé 'El Flaco', a porté le numéro 27 lors de sa première saison avant de récupérer le 10 de Nenê."
+  }
+]
