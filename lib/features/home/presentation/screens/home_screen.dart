@@ -9,6 +9,7 @@ import '../../../../theme/app_typography.dart';
 import '../../../../shared/providers/player_provider.dart';
 import '../../../../features/leaderboard/presentation/screens/leaderboard_screen.dart';
 import '../../../../features/profile/presentation/screens/profile_screen.dart';
+import '../../../../shared/components/xp_progress_bar.dart';
 
 // 1. L'écran devient Stateful pour mémoriser l'onglet sélectionné
 class HomeScreen extends ConsumerStatefulWidget {
@@ -81,29 +82,40 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: const BoxDecoration(
-                      color: AppColors.grisFonce,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Text(player?.avatar ?? '⚽', style: const TextStyle(fontSize: 24)),
-                  ),
-                  AppSpacing.w16,
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(player?.pseudo ?? 'Supporter', style: AppTypography.h3),
-                      Text(
-                        'Niveau ${player?.level ?? 1} • ${player?.xp ?? 0} XP',
-                        style: AppTypography.caption.copyWith(color: AppColors.jauneXP),
+              // NOUVEAU : On met un Expanded pour que le bloc prenne la bonne largeur
+              Expanded(
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: const BoxDecoration(
+                        color: AppColors.grisFonce,
+                        shape: BoxShape.circle,
                       ),
-                    ],
-                  ),
-                ],
+                      child: Text(player?.avatar ?? '⚽', style: const TextStyle(fontSize: 24)),
+                    ),
+                    AppSpacing.w16,
+                    // NOUVEAU : Un Expanded ici aussi pour la barre de progression
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(player?.pseudo ?? 'Supporter', style: AppTypography.h3),
+                          AppSpacing.h8,
+                          // 🔴 L'intégration de notre belle jauge à la place du texte brut !
+                          XpProgressBar(
+                            xp: player?.xp ?? 0,
+                            level: player?.level ?? 1,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
+              
+              AppSpacing.w16, // Espacement avant l'icône cloche
+              
               IconButton(
                 icon: const Icon(Icons.notifications_none, color: AppColors.grisClair),
                 onPressed: () {
