@@ -15,8 +15,12 @@ class CategoriesScreen extends StatelessWidget {
     final categories = [
       {'title': 'Légendes', 'icon': '⭐', 'color': AppColors.bleuPSG},
       {'title': 'Histoire', 'icon': '📚', 'color': AppColors.rougePSG},
-      {'title': 'Saison Actuelle', 'icon': '🔥', 'color': AppColors.grisFonce},
-      {'title': 'Maillots & Stades', 'icon': '👕', 'color': AppColors.grisFonce},
+      {'title': 'Classico', 'icon': '⚔️', 'color': AppColors.grisFonce},
+      {'title': 'Ligue des Champions', 'icon': '🏆', 'color': AppColors.bleuPSG},
+      {'title': 'Parc des Princes', 'icon': '🏟️', 'color': AppColors.rougePSG},
+      {'title': 'Entraîneurs', 'icon': '👔', 'color': AppColors.grisFonce},
+      {'title': 'Statistiques', 'icon': '📊', 'color': AppColors.bleuPSG},
+      {'title': 'Saison Actuelle', 'icon': '🔥', 'color': AppColors.rougePSG},
     ];
 
     return Scaffold(
@@ -49,7 +53,7 @@ class CategoriesScreen extends StatelessWidget {
                   crossAxisCount: 2,
                   crossAxisSpacing: 16,
                   mainAxisSpacing: 16,
-                  childAspectRatio: 1.1,
+                  childAspectRatio: 1.6,
                 ),
                 itemCount: categories.length,
                 itemBuilder: (context, index) {
@@ -70,7 +74,7 @@ class CategoriesScreen extends StatelessWidget {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(cat['icon'] as String, style: const TextStyle(fontSize: 40)),
+                            Text(cat['icon'] as String, style: const TextStyle(fontSize: 32)),
                             AppSpacing.h8,
                             Text(
                               cat['title'] as String,
