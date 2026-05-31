@@ -1,13 +1,14 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-// 1. Le Modèle de données (Inchangé)
+// 1. Le Modèle de données
 class PlayerProfile {
   final String id;
   final String pseudo;
   final String avatar;
   final int level;
   final int xp;
+  final String? lastDailyQuizDate; // 👈 NOUVEAU
 
   PlayerProfile({
     required this.id,
@@ -15,6 +16,7 @@ class PlayerProfile {
     required this.avatar,
     this.level = 1,
     this.xp = 0,
+    this.lastDailyQuizDate,
   });
 
   PlayerProfile copyWith({
@@ -23,6 +25,7 @@ class PlayerProfile {
     String? avatar,
     int? level,
     int? xp,
+    String? lastDailyQuizDate,
   }) {
     return PlayerProfile(
       id: id ?? this.id,
@@ -30,6 +33,7 @@ class PlayerProfile {
       avatar: avatar ?? this.avatar,
       level: level ?? this.level,
       xp: xp ?? this.xp,
+      lastDailyQuizDate: lastDailyQuizDate ?? this.lastDailyQuizDate,
     );
   }
 }
@@ -43,7 +47,6 @@ class PlayerNotifier extends Notifier<PlayerProfile?> {
     return null;
   }
 
-  // 🔴 NOUVEAU : Fonction pour charger un profil existant au démarrage
   Future<bool> loadProfile(String uid) async {
     try {
       final doc = await _db.collection('users').doc(uid).get();
@@ -55,28 +58,26 @@ class PlayerNotifier extends Notifier<PlayerProfile?> {
           avatar: data['avatar'] ?? '⚽',
           level: data['level'] ?? 1,
           xp: data['xp'] ?? 0,
+          lastDailyQuizDate: data['lastDailyQuizDate'], // 👈 NOUVEAU
         );
-        return true; // Profil trouvé et chargé !
+        return true;
       }
     } catch (e) {
-      print("Erreur de chargement du profil: $e");
+      print("Erreur de chargement: $e");
     }
-    return false; // Aucun profil trouvé
+    return false;
   }
 
-  // 🔴 MODIFIÉ : On utilise l'UID d'authentification pour cibler le document avec .set()
   Future<void> createProfile(String pseudo, String avatar, String uid) async {
     final data = {
       'pseudo': pseudo,
       'avatar': avatar,
       'level': 1,
       'xp': 0,
+      'lastDailyQuizDate': null, // 👈 NOUVEAU
       'createdAt': FieldValue.serverTimestamp(),
     };
-
-    // On force l'ID du document à être l'ID de connexion du téléphone
     await _db.collection('users').doc(uid).set(data);
-
     state = PlayerProfile(
       id: uid,
       pseudo: pseudo,
@@ -86,23 +87,30 @@ class PlayerNotifier extends Notifier<PlayerProfile?> {
     );
   }
 
-  // Ajout de l'XP (Inchangé)
   void addXp(int earnedXp) {
     if (state == null) return;
-
     final newXp = state!.xp + earnedXp;
     final newLevel = 1 + (newXp ~/ 100);
-
     _db.collection('users').doc(state!.id).update({
       'xp': newXp,
       'level': newLevel,
     });
-
     state = state!.copyWith(xp: newXp, level: newLevel);
+  }
+
+  // 🔴 NOUVEAU : Marquer le quiz comme joué aujourd'hui
+  void markDailyQuizAsPlayed() {
+    if (state == null) return;
+    // On génère la date du jour au format YYYY-MM-DD
+    final today = DateTime.now().toIso8601String().split('T')[0];
+    
+    _db.collection('users').doc(state!.id).update({
+      'lastDailyQuizDate': today,
+    });
+    state = state!.copyWith(lastDailyQuizDate: today);
   }
 }
 
-// 3. Le Provider (Inchangé)
 final playerProvider = NotifierProvider<PlayerNotifier, PlayerProfile?>(() {
   return PlayerNotifier();
 });

@@ -83,14 +83,20 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
         );
       }
 
-      // On envoie l'XP gagnée au cerveau Riverpod !
-      ref.read(playerProvider.notifier).addXp(_score);
+      // 🔴 NOUVEAU : Logique spécifique au Quiz du Jour
+      int finalScore = _score;
+      if (widget.category == 'Quiz du Jour') {
+        ref.read(playerProvider.notifier).markDailyQuizAsPlayed(); // Verrouille le quiz
+        finalScore += 25; // Bonus de 25 XP pour le défi quotidien 
+      }
+
+      ref.read(playerProvider.notifier).addXp(finalScore);
 
       // 🔴 NOUVEAU : Fin du quiz, on navigue vers le bel écran de résultat en passant les stats !
       context.go(
         AppRoutes.result,
         extra: {
-          'score': _score,
+          'score': finalScore,
           'correctAnswers': _correctAnswersCount,
           'totalQuestions': _questions.length,
         },

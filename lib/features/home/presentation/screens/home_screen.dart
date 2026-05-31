@@ -162,7 +162,33 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 AppSpacing.h16,
                 ElevatedButton(
                   onPressed: () {
-                    context.push(AppRoutes.quiz, extra: 'Quiz du Jour');
+                    // 🔴 NOUVEAU : On vérifie si la date enregistrée est celle d'aujourd'hui
+                    final today = DateTime.now().toIso8601String().split('T')[0];
+                    
+                    if (player?.lastDailyQuizDate == today) {
+                      // 🔴 CORRECTION : Un bandeau rouge, flottant, avec un texte blanc bien gras !
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'Tu as déjà joué aujourd\'hui ! Reviens demain ⏳',
+                            style: AppTypography.body.copyWith(
+                              color: AppColors.blanc,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          backgroundColor: AppColors.rougeErreur, // Un vrai rouge pour alerter
+                          behavior: SnackBarBehavior.floating, // Rend le bandeau flottant
+                          margin: const EdgeInsets.all(AppSpacing.sections), // Décolle le bandeau des bords
+                          shape: RoundedRectangleBorder(
+                            borderRadius: AppRadius.m, // Arrondit les bords
+                          ),
+                        ),
+                      );
+                    } else {
+                      // Sinon, feu vert !
+                      context.push(AppRoutes.quiz, extra: 'Quiz du Jour');
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.rougePSG,
