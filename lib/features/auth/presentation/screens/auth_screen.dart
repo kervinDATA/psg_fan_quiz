@@ -32,8 +32,15 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
   }
 
   Future<void> _submitForm() async {
-    if (!_formKey.currentState!.validate()) return;
+    print("👉 Clic détecté ! Mode connexion : $_isLogin");
 
+    // On vérifie si la validation bloque silencieusement
+    if (!_formKey.currentState!.validate()) {
+      print("❌ ÉCHEC LOCAL : L'email est mal formaté ou le mot de passe fait moins de 6 caractères.");
+      return; // On arrête là
+    }
+
+    print("✅ Validation locale réussie. On contacte Firebase...");
     setState(() => _isLoading = true);
 
     try {
@@ -42,24 +49,38 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
       final password = _passwordController.text.trim();
 
       if (_isLogin) {
+        // --- 🔵 MODE CONNEXION ---
         final user = await authRepo.signInWithEmail(email, password);
-        
-        // 🔴 NOUVEAU : On télécharge le profil dans la mémoire AVANT d'aller à l'accueil
         if (user != null) {
           await ref.read(playerProvider.notifier).loadProfile(user.uid);
         }
         
-        if (mounted) context.go(AppRoutes.home);
+        if (mounted) {
+          // Aiguillage selon la présence d'une ligue
+          final player = ref.read(playerProvider);
+          if (player?.leagueId != null) {
+            context.go(AppRoutes.home);
+          } else {
+            context.go(AppRoutes.lobby);
+          }
+        }
       } else {
+        // --- 🔴 MODE INSCRIPTION (Le bloc manquant !) ---
         await authRepo.signUpWithEmail(email, password);
+        
         // Si c'est une inscription, on l'envoie configurer son profil (pseudo/avatar)
         if (mounted) context.go(AppRoutes.profileSetup);
       }
+      
     } catch (e) {
+      // On force l'affichage de l'erreur exacte dans la console de VS Code !
+      print("🚨 ERREUR D'AUTHENTIFICATION : $e");
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Erreur d\'authentification. Vérifie tes identifiants.'),
+          SnackBar(
+            // On affiche le vrai message renvoyé par Firebase à l'écran
+            content: Text('Erreur : ${e.toString()}'),
+            behavior: SnackBarBehavior.floating, // Pour être sûr de bien le voir !
             backgroundColor: AppColors.rougeErreur,
           ),
         );

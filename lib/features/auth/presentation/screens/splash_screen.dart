@@ -34,9 +34,13 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
       if (mounted) {
         if (profileExists) {
-          context.go(AppRoutes.home); // Direction le jeu
-        } else {
-          context.go(AppRoutes.profileSetup); // Il s'est inscrit mais n'a pas fini son profil
+          // 🔴 NOUVEAU : On vérifie si le joueur appartient à une ligue
+          final player = ref.read(playerProvider);
+          if (player?.leagueId != null) {
+            context.go(AppRoutes.home); // Direction le Vestiaire de sa ligue
+          } else {
+            context.go(AppRoutes.lobby); // Direction le sas d'entrée pour choisir une ligue
+          }
         }
       }
     } else {

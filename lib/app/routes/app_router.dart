@@ -9,6 +9,7 @@ import '../../features/quiz/presentation/screens/quiz_screen.dart';
 import '../../features/leaderboard/presentation/screens/leaderboard_screen.dart';
 import '../../features/quiz/presentation/screens/result_screen.dart';
 import '../../features/auth/presentation/screens/auth_screen.dart';
+import '../../features/league/presentation/screens/league_lobby_screen.dart';
 
 // Déclaration des constantes de chemins (Règles de nommage propres)
 class AppRoutes {
@@ -21,8 +22,9 @@ class AppRoutes {
   static const String categories = '/categories';
   static const String quiz = '/quiz';
   static const String leaderboard = '/leaderboard';
-  static const String result = '/result'; // 👈 À rajouter dans la classe AppRoutes
+  static const String result = '/result';
   static const String auth = '/auth';
+  static const String lobby = '/lobby';
 }
 
 // Configuration globale de GoRouter pour le MVP
@@ -77,6 +79,10 @@ final goRouter = GoRouter(
     GoRoute(
       path: AppRoutes.auth,
       builder: (context, state) => const AuthScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.lobby,
+      builder: (context, state) => const LeagueLobbyScreen(),
     ),
   ],
 );

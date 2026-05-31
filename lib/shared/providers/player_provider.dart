@@ -8,7 +8,9 @@ class PlayerProfile {
   final String avatar;
   final int level;
   final int xp;
-  final String? lastDailyQuizDate; // 👈 NOUVEAU
+  final String? lastDailyQuizDate;
+  final String? leagueId; // 👈 NOUVEAU : La ligue du joueur
+  final int leagueScore; // 👈 NOUVEAU : Le score de la saison en cours
 
   PlayerProfile({
     required this.id,
@@ -17,6 +19,8 @@ class PlayerProfile {
     this.level = 1,
     this.xp = 0,
     this.lastDailyQuizDate,
+    this.leagueId, // 👈 NOUVEAU
+    this.leagueScore = 0, // 👈 NOUVEAU
   });
 
   PlayerProfile copyWith({
@@ -26,6 +30,8 @@ class PlayerProfile {
     int? level,
     int? xp,
     String? lastDailyQuizDate,
+    String? leagueId, // 👈 NOUVEAU
+    int? leagueScore, // 👈 NOUVEAU
   }) {
     return PlayerProfile(
       id: id ?? this.id,
@@ -34,6 +40,8 @@ class PlayerProfile {
       level: level ?? this.level,
       xp: xp ?? this.xp,
       lastDailyQuizDate: lastDailyQuizDate ?? this.lastDailyQuizDate,
+      leagueId: leagueId ?? this.leagueId, // 👈 NOUVEAU
+      leagueScore: leagueScore ?? this.leagueScore, // 👈 NOUVEAU
     );
   }
 }
@@ -58,7 +66,9 @@ class PlayerNotifier extends Notifier<PlayerProfile?> {
           avatar: data['avatar'] ?? '⚽',
           level: data['level'] ?? 1,
           xp: data['xp'] ?? 0,
-          lastDailyQuizDate: data['lastDailyQuizDate'], // 👈 NOUVEAU
+          lastDailyQuizDate: data['lastDailyQuizDate'],
+          leagueId: data['leagueId'], // 👈 NOUVEAU
+          leagueScore: data['leagueScore'] ?? 0, // 👈 NOUVEAU
         );
         return true;
       }
@@ -87,15 +97,25 @@ class PlayerNotifier extends Notifier<PlayerProfile?> {
     );
   }
 
-  void addXp(int earnedXp) {
+  // 🔴 NOUVEAU : On ajoute l'XP globale ET le score de la Ligue !
+  void addMatchScore(int score) {
     if (state == null) return;
-    final newXp = state!.xp + earnedXp;
+    
+    final newXp = state!.xp + score;
     final newLevel = 1 + (newXp ~/ 100);
+    final newLeagueScore = state!.leagueScore + score; // 👈 On monte le score de la ligue
+
     _db.collection('users').doc(state!.id).update({
       'xp': newXp,
       'level': newLevel,
+      'leagueScore': newLeagueScore, // 👈 On sauvegarde dans le cloud
     });
-    state = state!.copyWith(xp: newXp, level: newLevel);
+
+    state = state!.copyWith(
+      xp: newXp, 
+      level: newLevel, 
+      leagueScore: newLeagueScore
+    );
   }
 
   // 🔴 NOUVEAU : Marquer le quiz comme joué aujourd'hui
@@ -108,6 +128,13 @@ class PlayerNotifier extends Notifier<PlayerProfile?> {
       'lastDailyQuizDate': today,
     });
     state = state!.copyWith(lastDailyQuizDate: today);
+  }
+
+  // 🔴 NOUVEAU : Lier le joueur à sa ligue dans Firestore
+  Future<void> setLeagueId(String leagueId) async {
+    if (state == null) return;
+    await _db.collection('users').doc(state!.id).update({'leagueId': leagueId});
+    state = state!.copyWith(leagueId: leagueId);
   }
 }
 

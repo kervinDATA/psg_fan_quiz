@@ -53,7 +53,8 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
         await ref.read(playerProvider.notifier).createProfile(pseudo, avatar, user.uid);
 
         if (context.mounted) {
-          context.go(AppRoutes.home);
+          // 🔴 NOUVEAU : Après avoir créé son profil, il doit rejoindre ou créer une ligue
+          context.go(AppRoutes.lobby);
         }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(

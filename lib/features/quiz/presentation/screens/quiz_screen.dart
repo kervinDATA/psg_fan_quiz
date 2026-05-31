@@ -90,7 +90,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
         finalScore += 25; // Bonus de 25 XP pour le défi quotidien 
       }
 
-      ref.read(playerProvider.notifier).addXp(finalScore);
+      ref.read(playerProvider.notifier).addMatchScore(finalScore);
 
       // 🔴 NOUVEAU : Fin du quiz, on navigue vers le bel écran de résultat en passant les stats !
       context.go(
