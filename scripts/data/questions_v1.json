@@ -2,121 +2,211 @@
   {
     "categoryId": "Histoire",
     "text": "En quelle année le Paris Saint-Germain a-t-il été officiellement fondé ?",
-    "options": [
-      "1965",
-      "1970",
-      "1974",
-      "1982"
-    ],
+    "options": ["1965", "1970", "1974", "1982"],
     "correctAnswerIndex": 1,
     "explanation": "Le PSG est né le 12 août 1970 de la fusion entre le Paris Football Club et le Stade Saint-Germain."
   },
   {
     "categoryId": "Histoire",
     "text": "Quelle marque a été le sponsor maillot iconique du PSG de 1974 à 1991 ?",
-    "options": [
-      "Fly Emirates",
-      "Opel",
-      "Commodore",
-      "RTL"
-    ],
+    "options": ["Fly Emirates", "Opel", "Commodore", "RTL"],
     "correctAnswerIndex": 3,
     "explanation": "RTL a été le sponsor maillot historique du club pendant 17 ans, marquant les premières grandes heures du PSG."
   },
   {
     "categoryId": "Légendes",
     "text": "Quel joueur a remporté le Ballon d'Or en 1995 alors qu'il évoluait au PSG durant la première moitié de l'année ?",
-    "options": [
-      "Ronaldinho",
-      "George Weah",
-      "David Ginola",
-      "Raí"
-    ],
+    "options": ["Ronaldinho", "George Weah", "David Ginola", "Raí"],
     "correctAnswerIndex": 1,
     "explanation": "George Weah a remporté le Ballon d'Or en 1995. Il a joué la première moitié de l'année au PSG avant d'être transféré à l'AC Milan."
   },
   {
     "categoryId": "Légendes",
     "text": "Combien de buts Zlatan Ibrahimović a-t-il marqués sous les couleurs du Paris Saint-Germain ?",
-    "options": [
-      "156",
-      "138",
-      "172",
-      "200"
-    ],
+    "options": ["156", "138", "172", "200"],
     "correctAnswerIndex": 0,
     "explanation": "Zlatan a inscrit 156 buts toutes compétitions confondues, marquant à jamais l'ère QSI du club."
   },
   {
     "categoryId": "Classico",
     "text": "Quel est le score du célèbre Classico remporté par le PSG au Stade Vélodrome en février 2017 ?",
-    "options": [
-      "0-3",
-      "1-4",
-      "1-5",
-      "0-4"
-    ],
+    "options": ["0-3", "1-4", "1-5", "0-4"],
     "correctAnswerIndex": 2,
     "explanation": "Le PSG s'est imposé 5-1 au Vélodrome, signant l'une des plus larges victoires parisiennes en terre marseillaise."
   },
   {
     "categoryId": "Ligue des Champions",
     "text": "Contre quelle équipe le PSG a-t-il disputé la première finale de Ligue des Champions de son histoire en 2020 ?",
-    "options": [
-      "Real Madrid",
-      "Bayern Munich",
-      "Liverpool",
-      "Manchester City"
-    ],
+    "options": ["Real Madrid", "Bayern Munich", "Liverpool", "Manchester City"],
     "correctAnswerIndex": 1,
     "explanation": "Le PSG s'est incliné 1-0 face au Bayern Munich lors du 'Final 8' organisé exceptionnellement à Lisbonne."
   },
   {
     "categoryId": "Parc des Princes",
     "text": "Quelle est la capacité d'accueil approximative du Parc des Princes en configuration match ?",
-    "options": [
-      "38 000 places",
-      "48 000 places",
-      "58 000 places",
-      "68 000 places"
-    ],
+    "options": ["38 000 places", "48 000 places", "58 000 places", "68 000 places"],
     "correctAnswerIndex": 1,
     "explanation": "Le Parc des Princes peut accueillir environ 48 000 spectateurs (précisément 47 929), offrant une acoustique et une ambiance uniques."
   },
   {
     "categoryId": "Entraîneurs",
     "text": "Qui était l'entraîneur du PSG lors de la victoire historique en Coupe d'Europe des Vainqueurs de Coupe (C2) en 1996 ?",
-    "options": [
-      "Artur Jorge",
-      "Carlo Ancelotti",
-      "Luis Fernandez",
-      "Laurent Blanc"
-    ],
+    "options": ["Artur Jorge", "Carlo Ancelotti", "Luis Fernandez", "Laurent Blanc"],
     "correctAnswerIndex": 2,
     "explanation": "Luis Fernandez, ancien joueur emblématique du club, entraînait l'équipe lors de cette victoire fondatrice contre le Rapid Vienne (1-0)."
   },
   {
     "categoryId": "Statistiques",
     "text": "Quel défenseur brésilien a dépassé Jean-Marc Pilorget pour devenir le joueur le plus capé de l'histoire du PSG ?",
-    "options": [
-      "Thiago Silva",
-      "Marquinhos",
-      "Maxwell",
-      "Alex"
-    ],
+    "options": ["Thiago Silva", "Marquinhos", "Maxwell", "Alex"],
     "correctAnswerIndex": 1,
     "explanation": "Le capitaine Marquinhos a dépassé la barre mythique des 435 matchs de Jean-Marc Pilorget au printemps 2024."
   },
   {
     "categoryId": "Saison Actuelle",
     "text": "Quel joueur argentin a porté le numéro 27 à son arrivée en 2011 avant de récupérer le mythique numéro 10 ?",
-    "options": [
-      "Angel Di Maria",
-      "Javier Pastore",
-      "Lionel Messi",
-      "Ezequiel Lavezzi"
-    ],
+    "options": ["Angel Di Maria", "Javier Pastore", "Lionel Messi", "Ezequiel Lavezzi"],
     "correctAnswerIndex": 1,
     "explanation": "Javier Pastore, surnommé 'El Flaco', a porté le numéro 27 lors de sa première saison avant de récupérer le 10 de Nenê."
+  },
+  {
+    "categoryId": "Légendes",
+    "text": "Qui est le meilleur buteur de l'histoire du PSG en Ligue des Champions ?",
+    "options": ["Kylian Mbappé", "Edinson Cavani", "Zlatan Ibrahimović", "Neymar Jr"],
+    "correctAnswerIndex": 0,
+    "explanation": "Kylian Mbappé détient ce record avec le maillot parisien."
+  },
+  {
+    "categoryId": "Histoire",
+    "text": "En quelle année le PSG a-t-il été racheté par QSI (Qatar Sports Investments) ?",
+    "options": ["2010", "2011", "2012", "2013"],
+    "correctAnswerIndex": 1,
+    "explanation": "Le rachat a été acté officiellement durant l'été 2011."
+  },
+  {
+    "categoryId": "Joueurs",
+    "text": "Quel joueur a porté le surnom de 'L'Aigle des Açores' ?",
+    "options": ["Nuno Gomes", "Pedro Miguel Pauleta", "Rui Costa", "Deco"],
+    "correctAnswerIndex": 1,
+    "explanation": "Pauleta, l'idole du Parc des Princes, était surnommé ainsi."
+  },
+  {
+    "categoryId": "Histoire",
+    "text": "Contre quel club le PSG a-t-il disputé sa première finale de Coupe de France ?",
+    "options": ["AS Monaco", "Olympique de Marseille", "AS Saint-Étienne", "FC Nantes"],
+    "correctAnswerIndex": 0,
+    "explanation": "Le PSG a remporté sa première Coupe de France en 1982 face à l'AS Saint-Étienne."
+  },
+  {
+    "categoryId": "Légendes",
+    "text": "Quel joueur a inscrit le but de la victoire lors de la finale de la Coupe des Coupes 1996 ?",
+    "options": ["Bruno Ngotty", "Patrice Loko", "Youri Djorkaeff", "Raí"],
+    "correctAnswerIndex": 0,
+    "explanation": "Bruno Ngotty a marqué sur coup franc."
+  },
+  {
+    "categoryId": "Ligue des Champions",
+    "text": "Quelle équipe le PSG a-t-il battu 4-0 au Parc des Princes en 2017 (match aller des 8es) ?",
+    "options": ["Chelsea", "FC Barcelone", "Manchester United", "Benfica"],
+    "correctAnswerIndex": 1,
+    "explanation": "C'est la fameuse victoire 4-0 contre le Barça, avant la remontada."
+  },
+  {
+    "categoryId": "Entraîneurs",
+    "text": "Quel entraîneur français a réalisé un quadruplé national inédit en 2015 ?",
+    "options": ["Laurent Blanc", "Carlo Ancelotti", "Unai Emery", "Didier Deschamps"],
+    "correctAnswerIndex": 0,
+    "explanation": "Laurent Blanc a réussi le quadruplé domestique (L1, Coupe de France, Coupe de la Ligue, Trophée des Champions)."
+  },
+  {
+    "categoryId": "Joueurs",
+    "text": "Quel joueur a porté le numéro 10 au PSG juste avant Zlatan Ibrahimović ?",
+    "options": ["Javier Pastore", "Nenê", "Jérémy Ménez", "Guillaume Hoarau"],
+    "correctAnswerIndex": 1,
+    "explanation": "Nenê portait le 10 avant que Zlatan ne le récupère à son arrivée."
+  },
+  {
+    "categoryId": "Parc des Princes",
+    "text": "En quelle année le Parc des Princes actuel a-t-il été inauguré ?",
+    "options": ["1972", "1975", "1978", "1980"],
+    "correctAnswerIndex": 0,
+    "explanation": "L'inauguration du Parc des Princes sous sa forme actuelle a eu lieu en 1972."
+  },
+  {
+    "categoryId": "Statistiques",
+    "text": "Qui détient le record du plus grand nombre de buts marqués sur une seule saison de Ligue 1 avec le PSG ?",
+    "options": ["Zlatan Ibrahimović", "Edinson Cavani", "Kylian Mbappé", "Carlos Bianchi"],
+    "correctAnswerIndex": 0,
+    "explanation": "Zlatan Ibrahimović a marqué 38 buts en Ligue 1 lors de la saison 2015-2016."
+  },
+  {
+    "categoryId": "Histoire",
+    "text": "Quel est le nom du centre d'entraînement historique du PSG situé à Saint-Germain-en-Laye ?",
+    "options": ["Camp des Loges", "Domaine de Luchin", "Clairefontaine", "Centre Ooredoo"],
+    "correctAnswerIndex": 0,
+    "explanation": "Le Camp des Loges a été le centre de vie du club pendant des décennies."
+  },
+  {
+    "categoryId": "Joueurs",
+    "text": "Quel joueur a été surnommé 'Le Rat des Surfaces' ?",
+    "options": ["Pedro Miguel Pauleta", "George Weah", "Carlos Bianchi", "Dominique Rocheteau"],
+    "correctAnswerIndex": 2,
+    "explanation": "Carlos Bianchi, l'attaquant redoutable des années 70, était surnommé ainsi."
+  },
+  {
+    "categoryId": "Classico",
+    "text": "Qui a marqué le but décisif lors de la finale de Coupe de la Ligue 2008 face à Lens ?",
+    "options": ["Pauleta", "Bernard Mendy", "Jérôme Rothen", "Amara Simba"],
+    "correctAnswerIndex": 1,
+    "explanation": "Bernard Mendy a marqué le penalty décisif en fin de match."
+  },
+  {
+    "categoryId": "Joueurs",
+    "text": "Quel gardien a réalisé une double parade légendaire contre le Real Madrid en 2015 ?",
+    "options": ["Salvatore Sirigu", "Kevin Trapp", "Alphonse Areola", "Gianluigi Buffon"],
+    "correctAnswerIndex": 1,
+    "explanation": "Kevin Trapp a brillé ce soir-là au Parc des Princes."
+  },
+  {
+    "categoryId": "Ligue des Champions",
+    "text": "Quel joueur a inscrit un triplé au Camp Nou en 2021 lors de la victoire 4-1 ?",
+    "options": ["Kylian Mbappé", "Mauro Icardi", "Angel Di Maria", "Neymar Jr"],
+    "correctAnswerIndex": 0,
+    "explanation": "Kylian Mbappé a réalisé un triplé historique au Camp Nou."
+  },
+  {
+    "categoryId": "Histoire",
+    "text": "Comment s'appelait le stade où le PSG jouait avant d'intégrer définitivement le Parc des Princes ?",
+    "options": ["Stade Bauer", "Stade Jean-Bouin", "Stade Georges-Lefèvre", "Stade Charléty"],
+    "correctAnswerIndex": 2,
+    "explanation": "Le Stade Georges-Lefèvre de Saint-Germain-en-Laye était le terrain historique."
+  },
+  {
+    "categoryId": "Joueurs",
+    "text": "Quel joueur brésilien était surnommé 'O Fenômeno' lors de son passage au club ?",
+    "options": ["Ronaldinho", "Neymar", "Thiago Silva", "Marquinhos"],
+    "correctAnswerIndex": 0,
+    "explanation": "Ronaldinho a ébloui le Parc avec son talent unique durant ses années parisiennes."
+  },
+  {
+    "categoryId": "Histoire",
+    "text": "Quel club le PSG a-t-il battu en 1996 pour remporter la Coupe d'Europe des Vainqueurs de Coupe ?",
+    "options": ["Rapid Vienne", "FC Barcelone", "Arsenal", "Parme"],
+    "correctAnswerIndex": 0,
+    "explanation": "Le PSG a remporté ce titre historique face au Rapid Vienne."
+  },
+  {
+    "categoryId": "Ligue des Champions",
+    "text": "Quelle est la plus large victoire du PSG à domicile en Ligue des Champions ?",
+    "options": ["7-1 vs Celtic", "6-1 vs Red Star Belgrade", "5-0 vs Anderlecht", "4-0 vs Barcelone"],
+    "correctAnswerIndex": 0,
+    "explanation": "Le PSG a écrasé le Celtic Glasgow 7-1 en 2017 au Parc des Princes."
+  },
+  {
+    "categoryId": "Statistiques",
+    "text": "Combien de titres de Champion de France le PSG a-t-il remportés jusqu'en 2024 ?",
+    "options": ["8", "10", "12", "14"],
+    "correctAnswerIndex": 2,
+    "explanation": "Le PSG a remporté son 12ème titre de champion en 2024, affirmant sa domination sur la Ligue 1."
   }
 ]

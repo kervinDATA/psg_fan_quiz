@@ -36,7 +36,18 @@ class RemoteQuizRepository {
       // Sécurité si la base de données est vide
       if (questionsList.isEmpty) return [];
 
-      // 🔴 NOUVEAU : Logique de "Fenêtre Glissante" pour 0 doublon !
+      // 🔴 NOUVEAU : Le bouclier anti-doublons absolu !
+      // On utilise un Map pour ne garder qu'une seule version de chaque texte de question.
+      final uniqueQuestionsMap = <String, Question>{};
+      for (var question in questionsList) {
+        // On nettoie le texte (minuscules, sans espaces) pour être sûr de capter les doublons
+        final cleanText = question.text.toLowerCase().trim();
+        uniqueQuestionsMap.putIfAbsent(cleanText, () => question);
+      }
+      // On remplace notre liste par la liste parfaitement nettoyée
+      questionsList = uniqueQuestionsMap.values.toList();
+
+      // Logique de "Fenêtre Glissante" pour 0 doublon dans le temps
       if (category == 'Quiz du Jour') {
         // 1. On mélange avec une graine FIXE (ex: 75 pour Paris). 
         // L'ordre du "paquet de cartes" sera toujours exactement le même.
@@ -47,8 +58,7 @@ class RemoteQuizRepository {
         final daysSinceEpoch = now.difference(DateTime(2024, 1, 1)).inDays;
         
         // 3. On choisit le nombre de questions par jour 
-        // (Tu as parlé de 10 questions/jour, je mets 3 pour l'instant pour tes tests, mais tu pourras changer ce chiffre !)
-        const questionsPerDay = 3; 
+        const questionsPerDay = 10; 
         
         // Sécurité au cas où il y a moins de questions dans la BDD que le quota demandé
         final count = min(questionsPerDay, questionsList.length);
