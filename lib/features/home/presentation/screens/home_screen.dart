@@ -76,7 +76,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   // 3. Le contenu du Vestiaire
   Widget _buildAccueilContent(BuildContext context, PlayerProfile? player) {
-    // On écoute les données de la ligue en direct
     final leagueAsync = ref.watch(currentLeagueProvider);
     final membersAsync = ref.watch(leagueMembersProvider);
 
@@ -85,7 +84,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header Utilisateur (On le garde, il est top !)
+          // Header Utilisateur
           Row(
             children: [
               Container(
@@ -119,8 +118,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             data: (league) {
               if (league == null) return const SizedBox.shrink();
               final currentDay = league['currentDay'] ?? 1;
+              final lastDayUpdate = league['lastDayUpdate'] as String?;
+              final today = DateTime.now().toIso8601String().split('T')[0];
               
-              final isAdmin = league['adminId'] == player?.id; // On vérifie qui est le boss
+              // 🔴 NOUVEAU : L'astuce "Serverless" ! Le premier qui ouvre l'app fait avancer le jour du groupe
+              if (lastDayUpdate != today && currentDay < 3) {
+                Future.microtask(() {
+                  ref.read(leagueRepositoryProvider).advanceLeagueDay(player!.leagueId!);
+                });
+              }
+
+              final isAdmin = league['adminId'] == player?.id; 
               
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -132,8 +140,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         child: Text(league['name']?.toString().toUpperCase() ?? 'LIGUE', 
                         style: AppTypography.h2, overflow: TextOverflow.ellipsis),
                       ),
-                      
-                      // 🔴 NOUVEAU : Le badge est maintenant cliquable pour copier le code
                       GestureDetector(
                         onTap: () {
                           final code = player?.leagueId;
@@ -188,8 +194,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         
                         ElevatedButton(
                           onPressed: () {
-                            final today = DateTime.now().toIso8601String().split('T')[0];
-                            if (player?.lastDailyQuizDate == today) {
+                            final hasPlayedToday = player?.lastDailyQuizDate == today;
+                            
+                            // 🔴 NOUVEAU : Logique implacable pour bloquer le joueur
+                            // S'il est au Jour 3 et qu'il a déjà joué OU que la date a dépassé le Jour 3, c'est fini !
+                            final isSeasonFinished = currentDay == 3 && (hasPlayedToday || lastDayUpdate != today);
+
+                            if (isSeasonFinished) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Saison terminée ! L\'Admin doit clôturer pour relancer 🏆', style: AppTypography.body.copyWith(color: AppColors.blanc, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
+                                  backgroundColor: AppColors.rougeErreur, behavior: SnackBarBehavior.floating, margin: const EdgeInsets.all(AppSpacing.sections), shape: RoundedRectangleBorder(borderRadius: AppRadius.m),
+                                ),
+                              );
+                            } else if (hasPlayedToday) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text('Tu as déjà joué ton match ! Attends le coup d\'envoi demain ⏳', style: AppTypography.body.copyWith(color: AppColors.blanc, fontWeight: FontWeight.bold), textAlign: TextAlign.center),

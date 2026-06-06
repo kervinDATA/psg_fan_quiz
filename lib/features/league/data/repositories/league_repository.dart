@@ -16,73 +16,90 @@ class LeagueRepository {
   // 2. Créer une nouvelle Ligue dans le Cloud
   Future<String> createLeague(String name, String userId) async {
     String code = _generateLeagueCode();
+    final today = DateTime.now().toIso8601String().split('T')[0]; // 👈 Date du jour
     
     final leagueData = {
       'name': name,
       'adminId': userId,
       'members': [userId], // Le créateur est automatiquement le 1er membre
       'currentDay': 1,
+      'lastDayUpdate': today, // 🔴 NOUVEAU : On enregistre la date du Jour 1
       'createdAt': FieldValue.serverTimestamp(),
     };
 
-    // On utilise le code secret comme ID du document dans Firestore
     await _firestore.collection('leagues').doc(code).set(leagueData);
-    
-    return code; // On renvoie le code pour l'afficher à l'écran
+    return code; 
   }
 
   // 3. Rejoindre une ligue existante avec un code
   Future<bool> joinLeague(String code, String userId) async {
-    // On met en majuscules pour éviter les erreurs de frappe
     final cleanCode = code.trim().toUpperCase(); 
     final docRef = _firestore.collection('leagues').doc(cleanCode);
     final docSnap = await docRef.get();
 
     if (docSnap.exists) {
-      // Magie Firestore : arrayUnion ajoute l'utilisateur sans écraser les copains !
       await docRef.update({
         'members': FieldValue.arrayUnion([userId])
       });
-      return true; // Succès
+      return true; 
     }
-    return false; // Échec : le code n'existe pas
+    return false; 
   }
 
-  // 4. Clôturer la saison et relancer (Version pure, sans bonus)
+  // 4. Clôturer la saison et relancer
   Future<void> closeSeasonAndStartNext(String leagueId) async {
     try {
-      // 1. On récupère tous les membres de la ligue
-      final membersSnap = await _firestore
-          .collection('users')
-          .where('leagueId', isEqualTo: leagueId)
-          .get();
-
+      final membersSnap = await _firestore.collection('users').where('leagueId', isEqualTo: leagueId).get();
       if (membersSnap.docs.isEmpty) return;
 
-      // 2. On prépare un Batch (pour tout écrire d'un seul coup)
       final batch = _firestore.batch();
 
-      // 3. On remet les scores de ligue de TOUT LE MONDE à 0
       for (var doc in membersSnap.docs) {
         batch.update(doc.reference, {'leagueScore': 0});
       }
 
-      // 4. On remet le jour de la ligue à 1
+      final today = DateTime.now().toIso8601String().split('T')[0]; // 👈 Date du jour
       final leagueRef = _firestore.collection('leagues').doc(leagueId);
-      batch.update(leagueRef, {'currentDay': 1});
-
-      // 5. On exécute toutes ces actions simultanément sur Firebase !
-      await batch.commit();
-
-      print("✅ Saison clôturée ! Les scores de la ligue sont remis à zéro.");
       
+      // 🔴 NOUVEAU : On repart au Jour 1, à la date d'aujourd'hui
+      batch.update(leagueRef, {
+        'currentDay': 1,
+        'lastDayUpdate': today 
+      });
+
+      await batch.commit();
+      print("✅ Saison clôturée ! Les scores de la ligue sont remis à zéro.");
     } catch (e) {
       print("🚨 Erreur lors de la clôture de la saison : $e");
     }
   }
+
+  // 5. 🔴 NOUVEAU : Avancer le jour de la ligue si un nouveau jour se lève !
+  Future<void> advanceLeagueDay(String leagueId) async {
+    try {
+      final docRef = _firestore.collection('leagues').doc(leagueId);
+      final docSnap = await docRef.get();
+      if (!docSnap.exists) return;
+
+      final data = docSnap.data()!;
+      final currentDay = data['currentDay'] as int? ?? 1;
+      final lastDayUpdate = data['lastDayUpdate'] as String?;
+      final today = DateTime.now().toIso8601String().split('T')[0];
+
+      // Si la date enregistrée n'est pas celle d'aujourd'hui ET qu'on n'a pas fini le championnat (Jour 3)
+      if (lastDayUpdate != today && currentDay < 3) {
+        await docRef.update({
+          'currentDay': currentDay + 1,
+          'lastDayUpdate': today,
+        });
+        print("📅 La ligue passe au jour ${currentDay + 1} !");
+      }
+    } catch (e) {
+      print("🚨 Erreur lors de la mise à jour du jour de la ligue : $e");
+    }
+  }
 }
 
-// Le Provider pour rendre ce moteur accessible partout dans l'application
 final leagueRepositoryProvider = Provider<LeagueRepository>((ref) {
   return LeagueRepository();
 });
