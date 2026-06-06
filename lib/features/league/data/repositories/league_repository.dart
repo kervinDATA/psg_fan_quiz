@@ -48,7 +48,7 @@ class LeagueRepository {
     return false; // Échec : le code n'existe pas
   }
 
-  // 4. 🔴 NOUVEAU : Clôturer la saison, récompenser le gagnant, et relancer !
+  // 4. Clôturer la saison et relancer (Version pure, sans bonus)
   Future<void> closeSeasonAndStartNext(String leagueId) async {
     try {
       // 1. On récupère tous les membres de la ligue
@@ -59,42 +59,22 @@ class LeagueRepository {
 
       if (membersSnap.docs.isEmpty) return;
 
-      // 2. On trouve le gagnant (celui qui a le plus haut leagueScore)
-      var winnerDoc = membersSnap.docs.first;
-      for (var doc in membersSnap.docs) {
-        final score = doc.data()['leagueScore'] as int? ?? 0;
-        final currentWinnerScore = winnerDoc.data()['leagueScore'] as int? ?? 0;
-        if (score > currentWinnerScore) {
-          winnerDoc = doc;
-        }
-      }
-
-      // 3. On prépare un Batch (pour tout écrire d'un seul coup)
+      // 2. On prépare un Batch (pour tout écrire d'un seul coup)
       final batch = _firestore.batch();
 
-      // 4. On donne la récompense au gagnant (+500 XP pour le prestige)
-      final winnerData = winnerDoc.data();
-      final newXp = (winnerData['xp'] as int? ?? 0) + 500;
-      final newLevel = 1 + (newXp ~/ 100);
-      
-      batch.update(winnerDoc.reference, {
-        'xp': newXp,
-        'level': newLevel,
-      });
-
-      // 5. On remet les scores de ligue de TOUT LE MONDE à 0
+      // 3. On remet les scores de ligue de TOUT LE MONDE à 0
       for (var doc in membersSnap.docs) {
         batch.update(doc.reference, {'leagueScore': 0});
       }
 
-      // 6. On remet le jour de la ligue à 1
+      // 4. On remet le jour de la ligue à 1
       final leagueRef = _firestore.collection('leagues').doc(leagueId);
       batch.update(leagueRef, {'currentDay': 1});
 
-      // 7. On exécute toutes ces actions simultanément sur Firebase !
+      // 5. On exécute toutes ces actions simultanément sur Firebase !
       await batch.commit();
 
-      print("✅ Saison clôturée ! Le gagnant est ${winnerData['pseudo']}. Nouvelle saison lancée !");
+      print("✅ Saison clôturée ! Les scores de la ligue sont remis à zéro.");
       
     } catch (e) {
       print("🚨 Erreur lors de la clôture de la saison : $e");

@@ -101,14 +101,30 @@ class _LeagueLobbyScreenState extends ConsumerState<LeagueLobbyScreen> {
   Future<void> _createLeague(String name) async {
     setState(() => _isLoading = true);
     final player = ref.read(playerProvider);
-    if (player == null) return;
+    
+    // 1. On gère le cas où le joueur a disparu de la mémoire
+    if (player == null) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Erreur interne : Profil introuvable. Reconnecte-toi.'), backgroundColor: AppColors.rougeErreur),
+        );
+        setState(() => _isLoading = false);
+      }
+      return;
+    }
 
     try {
       final code = await ref.read(leagueRepositoryProvider).createLeague(name, player.id);
       await ref.read(playerProvider.notifier).setLeagueId(code); 
-      if (mounted) context.go(AppRoutes.home); // Bientôt, ce sera le Dashboard de la Ligue !
+      if (mounted) context.go(AppRoutes.home);
     } catch (e) {
-      print(e);
+      // 2. 🔴 NOUVEAU : On affiche l'erreur Firebase à l'écran !
+      print("🚨 ERREUR CRÉATION LIGUE : $e");
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Erreur : $e'), backgroundColor: AppColors.rougeErreur),
+        );
+      }
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
@@ -118,7 +134,16 @@ class _LeagueLobbyScreenState extends ConsumerState<LeagueLobbyScreen> {
   Future<void> _joinLeague(String code) async {
     setState(() => _isLoading = true);
     final player = ref.read(playerProvider);
-    if (player == null) return;
+    
+    if (player == null) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Erreur interne : Profil introuvable. Reconnecte-toi.'), backgroundColor: AppColors.rougeErreur),
+        );
+        setState(() => _isLoading = false);
+      }
+      return;
+    }
 
     try {
       final success = await ref.read(leagueRepositoryProvider).joinLeague(code, player.id);
@@ -133,7 +158,13 @@ class _LeagueLobbyScreenState extends ConsumerState<LeagueLobbyScreen> {
         }
       }
     } catch (e) {
-      print(e);
+      // 2. 🔴 NOUVEAU : On affiche l'erreur Firebase à l'écran !
+      print("🚨 ERREUR REJOINDRE LIGUE : $e");
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Erreur : $e'), backgroundColor: AppColors.rougeErreur),
+        );
+      }
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }

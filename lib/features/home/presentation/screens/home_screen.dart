@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // 👈 NOUVEAU : Import pour utiliser le presse-papiers (Clipboard)
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../app/routes/app_router.dart';
@@ -119,7 +120,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               if (league == null) return const SizedBox.shrink();
               final currentDay = league['currentDay'] ?? 1;
               
-              final isAdmin = league['adminId'] == player?.id; // 👈 NOUVEAU : On vérifie qui est le boss
+              final isAdmin = league['adminId'] == player?.id; // On vérifie qui est le boss
               
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -131,10 +132,36 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         child: Text(league['name']?.toString().toUpperCase() ?? 'LIGUE', 
                         style: AppTypography.h2, overflow: TextOverflow.ellipsis),
                       ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                        decoration: BoxDecoration(color: AppColors.rougePSG, borderRadius: AppRadius.s),
-                        child: Text('CODE: ${player?.leagueId}', style: AppTypography.caption.copyWith(fontWeight: FontWeight.bold, color: AppColors.blanc)),
+                      
+                      // 🔴 NOUVEAU : Le badge est maintenant cliquable pour copier le code
+                      GestureDetector(
+                        onTap: () {
+                          final code = player?.leagueId;
+                          if (code != null) {
+                            Clipboard.setData(ClipboardData(text: code));
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Code $code copié ! Envoie-le à tes potes 📋', style: AppTypography.body.copyWith(color: AppColors.blanc, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
+                                backgroundColor: AppColors.vertSucces,
+                                behavior: SnackBarBehavior.floating,
+                                shape: RoundedRectangleBorder(borderRadius: AppRadius.m),
+                                duration: const Duration(seconds: 2),
+                              ),
+                            );
+                          }
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          decoration: BoxDecoration(color: AppColors.rougePSG, borderRadius: AppRadius.s),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text('CODE: ${player?.leagueId}', style: AppTypography.caption.copyWith(fontWeight: FontWeight.bold, color: AppColors.blanc)),
+                              AppSpacing.w4,
+                              const Icon(Icons.copy, size: 14, color: AppColors.blanc),
+                            ],
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -180,7 +207,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ),
                   ),
 
-                  // 🔴 NOUVEAU : Zone Admin (Uniquement visible par le créateur)
+                  // Zone Admin (Uniquement visible par le créateur)
                   if (isAdmin) ...[
                     AppSpacing.h16,
                     SizedBox(
@@ -248,7 +275,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ),
                       title: Text('${member['avatar']} ${member['pseudo']}', style: AppTypography.body.copyWith(fontWeight: FontWeight.bold)),
                       
-                      // 🔴 LA LIGNE MODIFIÉE EST JUSTE ICI :
                       trailing: Text('${member['leagueScore'] ?? 0} PTS', style: AppTypography.body.copyWith(color: AppColors.jauneXP, fontWeight: FontWeight.bold)),
                     ),
                   );

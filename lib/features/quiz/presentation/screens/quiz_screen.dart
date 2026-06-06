@@ -87,7 +87,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
       int finalScore = _score;
       if (widget.category == 'Quiz du Jour') {
         ref.read(playerProvider.notifier).markDailyQuizAsPlayed(); // Verrouille le quiz
-        finalScore += 25; // Bonus de 25 XP pour le défi quotidien 
+        //finalScore += 25; 🔴 RETRAIT : Plus de finalScore += 25; ici !
       }
 
       ref.read(playerProvider.notifier).addMatchScore(finalScore);
