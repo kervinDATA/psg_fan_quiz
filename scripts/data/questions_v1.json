@@ -208,5 +208,131 @@
     "options": ["8", "10", "12", "14"],
     "correctAnswerIndex": 2,
     "explanation": "Le PSG a remporté son 12ème titre de champion en 2024, affirmant sa domination sur la Ligue 1."
+  },
+  {
+    "categoryId": "Histoire",
+    "text": "Qui est l'auteur du tout premier but de l'histoire du Paris Saint-Germain lors d'un match officiel en 1970 (contre Poitiers) ?",
+    "options": ["Jean-Claude Bras", "Bernard Guignedoux", "Jean Djorkaeff", "Camille Choquier"],
+    "correctAnswerIndex": 1,
+    "explanation": "Bernard Guignedoux a inscrit le premier but officiel du club sur un coup franc le 23 août 1970 lors du championnat de National (ex-Ligue 2)."
+  },
+  {
+    "categoryId": "Coupes d'Europe",
+    "text": "Lors du mythique quart de finale retour de Coupe de l'UEFA PSG - Real Madrid (4-1) en 1993, quel joueur parisien tire le coup franc décisif pour la tête d'Antoine Kombouaré ?",
+    "options": ["Paul Le Guen", "Valdo", "David Ginola", "Vincent Guérin"],
+    "correctAnswerIndex": 1,
+    "explanation": "C'est le milieu de terrain brésilien Valdo qui a distillé le coup franc parfait à la 96ème minute pour la tête historique de 'Casque d'Or'."
+  },
+  {
+    "categoryId": "Légendes",
+    "text": "Quel joueur du PSG a été le tout premier de l'histoire du club à terminer meilleur buteur du championnat de France de première division ?",
+    "options": ["Mustapha Dahleb", "François M'Pelé", "Dominique Rocheteau", "Carlos Bianchi"],
+    "correctAnswerIndex": 3,
+    "explanation": "L'Argentin Carlos Bianchi a terminé meilleur buteur lors de la saison 1977-1978 avec un total impressionnant de 37 buts en 38 matchs."
+  },
+  {
+    "categoryId": "Histoire",
+    "text": "Quel joueur sauve le PSG de la relégation en Ligue 2 lors de la toute dernière journée de la saison 2007-2008 en inscrivant un doublé décisif à Sochaux ?",
+    "options": ["Pauleta", "Peguy Luyindula", "Amara Diané", "Clément Chantôme"],
+    "correctAnswerIndex": 2,
+    "explanation": "Amara Diané a inscrit un doublé salvateur au Stade Bonal (victoire 2-1), évitant ainsi au club une descente cauchemardesque en deuxième division."
+  },
+  {
+    "categoryId": "Coupes d'Europe",
+    "text": "Quel club européen le PSG a-t-il éliminé en demi-finale de la Coupe d'Europe des Vainqueurs de Coupe 1996, juste avant de remporter la compétition ?",
+    "options": ["Deportivo La Corogne", "Juventus Turin", "Parme", "Bayer Leverkusen"],
+    "correctAnswerIndex": 0,
+    "explanation": "Le PSG a éliminé le club espagnol du Deportivo La Corogne (victoire 1-0 à l'aller, 1-0 au retour) pour atteindre la finale contre le Rapid Vienne."
+  },
+  {
+    "categoryId": "Statistiques",
+    "text": "Quel joueur détient le record absolu du nombre de passes décisives délivrées sous le maillot du PSG toutes compétitions confondues ?",
+    "options": ["Safet Sušić", "Kylian Mbappé", "Angel Di Maria", "Mustapha Dahleb"],
+    "correctAnswerIndex": 2,
+    "explanation": "Angel Di Maria est le meilleur passeur de l'histoire du club avec 112 passes décisives, devant la légende Safet Sušić (103 passes)."
+  },
+  {
+    "categoryId": "Faits de jeu",
+    "text": "Quel geste technique exceptionnel Pedro Miguel Pauleta a-t-il réalisé pour tromper le gardien marseillais Fabien Barthez lors du Classico au Parc des Princes en avril 2004 ?",
+    "options": ["Une reprise de volée du milieu de terrain", "Un coup franc en pleine lucarne", "Un lob subtil dans un angle très fermé", "Un retourné acrobatique"],
+    "correctAnswerIndex": 2,
+    "explanation": "Excentré sur le côté gauche et collé à la ligne de sortie de but, Pauleta a réalisé un lob parfait d'un angle quasi impossible qui a fini sa course dans le petit filet opposé de Fabien Barthez."
+  },
+  {
+    "categoryId": "Statistiques",
+    "text": "En combien de temps Kylian Mbappé a-t-il inscrit le but le plus rapide de l'histoire du PSG face à Lille lors de la saison 2022-2023 ?",
+    "options": ["8 secondes", "11 secondes", "14 secondes", "17 secondes"],
+    "correctAnswerIndex": 0,
+    "explanation": "Kylian Mbappé a trouvé le chemin des filets après seulement 8 secondes de jeu, effaçant ainsi l'ancien record de Paul Le Guen (13 secondes en 1992)."
+  },
+  {
+    "categoryId": "Insolite",
+    "text": "En janvier 2017 face à Nantes, Marco Verratti a écopé d'un carton jaune pour un fait de jeu technique rarissime et considéré comme un geste 'antisportif' par l'arbitre. Qu'a-t-il fait ?",
+    "options": ["Il a fait un croche-pied à son propre coéquipier", "Il s'est mis à quatre pattes pour faire une passe en retrait de la tête à son gardien", "Il a feinté de tirer un penalty pour faire une passe", "Il a gardé le ballon sous son maillot pour gagner du temps"],
+    "correctAnswerIndex": 1,
+    "explanation": "Pour contourner la règle de la passe en retrait au gardien avec le pied, Verratti s'est agenouillé volontairement pour passer le ballon de la tête à Kevin Trapp. L'arbitre a sanctionné cette ruse d'un carton jaune."
+  },
+  {
+    "categoryId": "Statistiques",
+    "text": "Lors de la campagne de Ligue des Champions 2023-2024, quel joueur parisien s'est imposé comme le véritable marathonien de l'équipe en parcourant la plus grande distance totale sur la compétition (plus de 172 km) ?",
+    "options": ["Warren Zaïre-Emery", "Fabián Ruiz", "Vitinha", "Marquinhos"],
+    "correctAnswerIndex": 2,
+    "explanation": "Véritable plaque tournante du système de Luis Enrique, Vitinha a avalé 172 km au cours de la campagne européenne du PSG cette saison-là (soit une moyenne impressionnante de plus de 11 km par match), devançant son jeune coéquipier Warren Zaïre-Emery."
+  },
+  {
+    "categoryId": "Statistiques",
+    "text": "Quel joueur a accumulé le plus grand nombre de minutes passées sur le terrain avec le PSG lors de la saison marathon 2024-2025, s'imposant comme le joueur le plus utilisé de l'effectif (près de 4 700 minutes) ?",
+    "options": ["Marquinhos", "Warren Zaïre-Emery", "Achraf Hakimi", "Gianluigi Donnarumma"],
+    "correctAnswerIndex": 2,
+    "explanation": "L'infatigable latéral droit marocain Achraf Hakimi a terminé la saison 2024-2025 en tant que joueur le plus utilisé par Luis Enrique, cumulant un total impressionnant de 4 698 minutes de jeu toutes compétitions confondues."
+  },
+  {
+    "categoryId": "Statistiques",
+    "text": "Quel milieu de terrain du PSG a établi un record vertigineux en Ligue 1 en réussissant 164 passes dans un seul match contre le SC Bastia en janvier 2016 ?",
+    "options": ["Marco Verratti", "Thiago Motta", "Adrien Rabiot", "Javier Pastore"],
+    "correctAnswerIndex": 1,
+    "explanation": "Le métronome Thiago Motta a touché un nombre incalculable de ballons ce soir-là, battant le record absolu de passes réussies sur une seule rencontre du championnat de France."
+  },
+  {
+    "categoryId": "Physique & Records",
+    "text": "Flashé lors d'un sprint fulgurant contre l'AS Monaco en avril 2019, à quelle vitesse record Kylian Mbappé a-t-il été chronométré ?",
+    "options": ["36 km/h", "37 km/h", "38 km/h", "39 km/h"],
+    "correctAnswerIndex": 2,
+    "explanation": "Kylian Mbappé a été flashé à 38 km/h. Pour donner un ordre d'idée, cette pointe de vitesse était supérieure à la vitesse moyenne d'Usain Bolt lors de son record du monde du 100m (37,58 km/h)."
+  },
+  {
+    "categoryId": "Physique & Records",
+    "text": "Quel joueur détient le record du joueur le plus grand ayant évolué en équipe première sous l'ère QSI, culminant à 1m99 ?",
+    "options": ["Gianluigi Donnarumma", "Marcin Bulka", "Alphonse Areola", "Guillaume Hoarau"],
+    "correctAnswerIndex": 1,
+    "explanation": "Le gardien polonais Marcin Bulka, qui a disputé deux matchs avec le PSG entre 2019 et 2021, culmine à 1m99. Il dépasse Gianluigi Donnarumma (1m96) et l'ancien attaquant Guillaume Hoarau (1m92)."
+  },
+  {
+    "categoryId": "Transferts & Records",
+    "text": "Quel joueur détient le record du transfert le plus cher de l'histoire du Paris Saint-Germain (et du football mondial) ?",
+    "options": ["Kylian Mbappé", "Neymar Jr", "Randal Kolo Muani", "Edinson Cavani"],
+    "correctAnswerIndex": 1,
+    "explanation": "À l'été 2017, le PSG a déboursé la somme historique de 222 millions d'euros pour lever la clause libératoire de Neymar au FC Barcelone."
+  },
+  {
+    "categoryId": "Transferts & Records",
+    "text": "Quel joueur est devenu le plus jeune de l'histoire du club à disputer un match officiel avec l'équipe première (à 16 ans, 4 mois et 29 jours) ?",
+    "options": ["Kingsley Coman", "Nicolas Anelka", "Adrien Rabiot", "Warren Zaïre-Emery"],
+    "correctAnswerIndex": 3,
+    "explanation": "Warren Zaïre-Emery a battu le record de précocité de Kingsley Coman en entrant en jeu contre Clermont en août 2022."
+  },
+  {
+    "categoryId": "Transferts & Records",
+    "text": "À l'inverse, quel joueur détient le record du joueur le plus âgé à avoir porté le maillot du PSG en match officiel (à plus de 41 ans) ?",
+    "options": ["Claude Makelele", "Gianluigi Buffon", "Grégory Coupet", "Sylvain Armand"],
+    "correctAnswerIndex": 1,
+    "explanation": "Le légendaire gardien italien Gianluigi Buffon a gardé les cages parisiennes à l'âge de 41 ans et 117 jours lors de son dernier match en mai 2019."
+  },
+  {
+    "categoryId": "Nationalités",
+    "text": "Le PSG a accueilli des joueurs du monde entier. Pourtant, parmi ces quatre nations d'Amérique du Nord et Centrale, laquelle n'a JAMAIS compté le moindre joueur ayant disputé un match officiel avec l'équipe première masculine ?",
+    "options": ["Les États-Unis", "Le Costa Rica", "Le Mexique", "Le Panama"],
+    "correctAnswerIndex": 2,
+    "explanation": "Aucun joueur mexicain n'a jamais porté le maillot parisien en match officiel. À l'inverse, les États-Unis (Timothy Weah), le Costa Rica (Keylor Navas) et le Panama (Julio Dely Valdés, redoutable buteur des années 90) ont tous été représentés au club !"
   }
 ]

@@ -11073,3 +11073,26 @@ La m�canique de la ligue est d�sormais parfaitement �tanche et s�curis�
 L'application a ete compilee avec succes pour le Web et deployee sur Firebase Hosting.
 Le jeu est desormais officiellement en ligne et accessible a l'adresse suivante :
 https://psg-fan-quiz.web.app
+
+-------------------------------------------------------------------------------------------------
+
+[04 Octobre 2026] - CORRECTION UI & MISE A JOUR PRODUCTION ðŸ“±
+
+- Ajout d'un espacement de securite (AppSpacing.h24) en bas de l'ecran du Quiz du jour.
+- Objectif : Remonter le bouton 'Question suivante' / 'Terminer le quiz' pour eviter qu'il ne soit coupe par la barre de navigation sur certains telephones.
+- La modification a ete compilee (flutter build web), deployee sur Firebase Hosting, et sauvegardee sur GitHub.
+
+-------------------------------------------------------------------------------------------------
+
+[04 Octobre 2026] - ENRICHISSEMENT DE LA BASE DE DONNEES ðŸ“š
+
+- Ajout de 18 nouvelles questions inedites dans le fichier source 'scripts/data/questions_v1.json'.
+- Themes abordes : Histoire, Coupes d'Europe, Legendes, Statistiques, Faits de jeu, Insolite, Physique & Records, Transferts, Nationalites.
+
+-------------------------------------------------------------------------------------------------
+
+[04 Octobre 2026] - IMPORTATION EN BASE DE DONNEES & CORRECTION D'HORLOGE â³
+
+- Execution reussie du script d'importation vers Firebase (Firestore).
+- 48 questions (anciennes + nouvelles) ont ete ajoutees avec succes a la collection 'questions'.
+- Creation d'un script alternatif 'import_questions_fixed.js' pour contourner un bug de desynchronisation (l'horloge locale Windows etait en avance d'environ 5 minutes sur les serveurs Google, ce qui provoquait l'erreur ACCESS_TOKEN_EXPIRED).
