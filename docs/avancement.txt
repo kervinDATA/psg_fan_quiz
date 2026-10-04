@@ -11096,3 +11096,13 @@ https://psg-fan-quiz.web.app
 - Execution reussie du script d'importation vers Firebase (Firestore).
 - 48 questions (anciennes + nouvelles) ont ete ajoutees avec succes a la collection 'questions'.
 - Creation d'un script alternatif 'import_questions_fixed.js' pour contourner un bug de desynchronisation (l'horloge locale Windows etait en avance d'environ 5 minutes sur les serveurs Google, ce qui provoquait l'erreur ACCESS_TOKEN_EXPIRED).
+
+-------------------------------------------------------------------------------------------------
+
+[04 Octobre 2026] - NOUVELLE FONCTIONNALITE : COMPTE A REBOURS â±ï¸
+
+- Implementation d'un timer de 20 secondes par question dans le QuizScreen.
+- Ajout d'une barre de progression horizontale animee (jaune, puis rouge lors des 5 dernieres secondes).
+- En cas de temps ecoule, la question est marquee comme fausse, la bonne reponse s'affiche en vert, et le joueur doit manuellement passer a la suivante.
+- Le chronometre se met automatiquement en pause si le joueur ouvre la popup d'abandon, et reprend s'il l'annule.
+- Nouvelle version compilee et deployee avec succes sur Firebase Hosting.

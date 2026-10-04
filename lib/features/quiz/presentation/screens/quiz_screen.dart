@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -24,6 +25,12 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
   List<Question> _questions = []; // Plus besoin du 'late'
   bool _isLoading = true; // 👈 NOUVEAU : On gère l'état de chargement
   int _currentIndex = 0;
+
+  // NOUVEAU : Variables pour le compte à rebours
+  Timer? _timer;
+  int _timeLeft = 20;
+  static const int _maxTime = 20;
+
   int _score = 0;
   int _correctAnswersCount = 0; // 👈 NOUVEAU : Compteur de bonnes réponses
   int? _selectedAnswerIndex;
@@ -32,6 +39,8 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
 
   @override
   void dispose() {
+    _timer?.cancel(); // Arrête le chrono pour éviter les fuites de mémoire
+
     // Si le widget est détruit (bouton retour forcé du navigateur) sans être fini
     if (!_isFinished && _questions.isNotEmpty) {
       final player = ref.read(playerProvider);
@@ -58,6 +67,32 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
     _loadQuestions(); // 👈 NOUVEAU : On lance le chargement asynchrone
   }
 
+  // 🔴 NOUVEAU : Démarre le chronomètre de 20 secondes
+  void _startTimer({bool resume = false}) {
+    if (!resume) _timeLeft = _maxTime;
+    _timer?.cancel();
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (!mounted) return;
+      setState(() {
+        if (_timeLeft > 0) {
+          _timeLeft--;
+        } else {
+          _timer?.cancel();
+          _handleTimeOut();
+        }
+      });
+    });
+  }
+
+  // 🔴 NOUVEAU : Ce qui se passe quand le temps est écoulé
+  void _handleTimeOut() {
+    if (_isAnswered) return;
+    setState(() {
+      _isAnswered = true;
+      _selectedAnswerIndex = -1; // Index invalide pour marquer comme faux sans sélectionner
+    });
+  }
+
   // 🔴 NOUVEAU : Fonction asynchrone pour interroger Firestore
   Future<void> _loadQuestions() async {
     final questions = await ref.read(remoteQuizRepositoryProvider).getQuestionsForCategory(widget.category);
@@ -66,11 +101,16 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
         _questions = questions;
         _isLoading = false; // Le chargement est terminé !
       });
+      if (_questions.isNotEmpty) {
+        _startTimer(); // Démarre le chrono pour la première question
+      }
     }
   }
 
   void _submitAnswer(int index) {
     if (_isAnswered) return; // Empêche le joueur de cliquer plusieurs fois
+
+    _timer?.cancel(); // 🔴 NOUVEAU : Le joueur a répondu, on stoppe le chrono
 
     setState(() {
       _selectedAnswerIndex = index;
@@ -91,6 +131,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
         _selectedAnswerIndex = null;
         _isAnswered = false;
       });
+      _startTimer(); // 🔴 NOUVEAU : Relance le chrono pour la nouvelle question
     } else {
       // On récupère le joueur actuel pour avoir son ID
       final player = ref.read(playerProvider);
@@ -131,6 +172,8 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
 
   // 🔴 NOUVEAU : Logique d'abandon sécurisée
   Future<void> _showAbandonDialog() async {
+    _timer?.cancel(); // On met le temps sur pause
+
     final shouldAbandon = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
@@ -153,6 +196,11 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
         ],
       ),
     );
+
+    // Si le joueur annule l'abandon et n'avait pas encore répondu
+    if (shouldAbandon != true && !_isAnswered) {
+      _startTimer(resume: true); // On relance le temps là où il s'était arrêté
+    }
 
     // Si le joueur confirme l'abandon
     if (shouldAbandon == true) {
@@ -227,6 +275,20 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            // 🔴 NOUVEAU : Barre de progression du temps
+            ClipRRect(
+              borderRadius: AppRadius.m,
+              child: LinearProgressIndicator(
+                value: _timeLeft / _maxTime,
+                backgroundColor: AppColors.grisFonce,
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  _timeLeft <= 5 ? AppColors.rougeErreur : AppColors.jauneXP,
+                ),
+                minHeight: 12,
+              ),
+            ),
+            AppSpacing.h16,
+
             // 1. Indicateur de progression (ex: Question 1 / 3)
             Text(
               'Question ${_currentIndex + 1} / ${_questions.length}',
