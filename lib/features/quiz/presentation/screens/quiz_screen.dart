@@ -28,6 +28,29 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
   int _correctAnswersCount = 0; // 👈 NOUVEAU : Compteur de bonnes réponses
   int? _selectedAnswerIndex;
   bool _isAnswered = false;
+  bool _isFinished = false; // 👈 NOUVEAU : Traque si le quiz est terminé proprement
+
+  @override
+  void dispose() {
+    // Si le widget est détruit (bouton retour forcé du navigateur) sans être fini
+    if (!_isFinished && _questions.isNotEmpty) {
+      final player = ref.read(playerProvider);
+      if (player != null) {
+        ref.read(quizResultRepositoryProvider).saveResult(
+          userId: player.id,
+          categoryId: widget.category,
+          score: _score,
+          correctAnswers: _correctAnswersCount,
+          totalQuestions: _questions.length,
+        );
+      }
+      if (widget.category == 'Quiz du Jour') {
+        ref.read(playerProvider.notifier).markDailyQuizAsPlayed();
+      }
+      ref.read(playerProvider.notifier).addMatchScore(_score);
+    }
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -92,6 +115,8 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
 
       ref.read(playerProvider.notifier).addMatchScore(finalScore);
 
+      _isFinished = true; // On marque comme terminé proprement
+
       // 🔴 NOUVEAU : Fin du quiz, on navigue vers le bel écran de résultat en passant les stats !
       context.go(
         AppRoutes.result,
@@ -101,6 +126,58 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
           'totalQuestions': _questions.length,
         },
       );
+    }
+  }
+
+  // 🔴 NOUVEAU : Logique d'abandon sécurisée
+  Future<void> _showAbandonDialog() async {
+    final shouldAbandon = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: AppColors.grisFonce,
+        title: Text('Abandonner le match ?', style: AppTypography.h3.copyWith(color: AppColors.blanc)),
+        content: Text(
+          'Si tu abandonnes maintenant, ton score actuel sera enregistré et tu ne pourras pas recommencer ce match.',
+          style: AppTypography.body.copyWith(color: AppColors.grisClair)
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false), // Annuler l'abandon
+            child: const Text('CONTINUER', style: TextStyle(color: AppColors.grisClair)),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: AppColors.rougeErreur),
+            onPressed: () => Navigator.pop(context, true), // Confirmer l'abandon
+            child: const Text('ABANDONNER', style: TextStyle(color: AppColors.blanc)),
+          ),
+        ],
+      ),
+    );
+
+    // Si le joueur confirme l'abandon
+    if (shouldAbandon == true) {
+      final player = ref.read(playerProvider);
+      if (player != null) {
+        ref.read(quizResultRepositoryProvider).saveResult(
+          userId: player.id,
+          categoryId: widget.category,
+          score: _score, // On enregistre ce qu'il a gagné jusqu'ici (souvent 0)
+          correctAnswers: _correctAnswersCount,
+          totalQuestions: _questions.length,
+        );
+      }
+
+      if (widget.category == 'Quiz du Jour') {
+        ref.read(playerProvider.notifier).markDailyQuizAsPlayed();
+      }
+
+      ref.read(playerProvider.notifier).addMatchScore(_score);
+
+      _isFinished = true; // Marqué comme fini puisqu'il assume l'abandon
+
+      if (mounted) {
+        context.go(AppRoutes.home); // Retour brutal au vestiaire
+      }
     }
   }
 
@@ -127,18 +204,24 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
 
     final question = _questions[_currentIndex];
 
-    return Scaffold(
-      backgroundColor: AppColors.noirProfond,
-      appBar: AppBar(
+    return PopScope(
+      canPop: false, // 🔴 NOUVEAU : Bloque le bouton retour physique ou navigateur
+      onPopInvoked: (didPop) async {
+        if (didPop) return;
+        await _showAbandonDialog(); // Déclenche l'abandon au lieu de quitter
+      },
+      child: Scaffold(
         backgroundColor: AppColors.noirProfond,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.close, color: AppColors.blanc),
-          onPressed: () => context.pop(), // Bouton pour fuir le match
+        appBar: AppBar(
+          backgroundColor: AppColors.noirProfond,
+          elevation: 0,
+          leading: IconButton(
+            icon: const Icon(Icons.close, color: AppColors.blanc),
+            onPressed: _showAbandonDialog, // 🔴 NOUVEAU : Le bouton (X) déclenche l'abandon
+          ),
+          title: Text(widget.category, style: AppTypography.h3),
+          centerTitle: true,
         ),
-        title: Text(widget.category, style: AppTypography.h3),
-        centerTitle: true,
-      ),
       body: Padding(
         padding: const EdgeInsets.all(AppSpacing.sections),
         child: Column(
@@ -215,6 +298,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
           ],
         ),
       ),
-    );
+      ), // Fin Scaffold
+    ); // Fin PopScope
   }
 }

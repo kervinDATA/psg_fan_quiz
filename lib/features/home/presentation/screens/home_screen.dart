@@ -215,6 +215,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 ),
                               );
                             } else {
+                              // 🔴 SÉCURITÉ ABSOLUE : On verrouille le quiz DÈS qu'il clique sur jouer !
+                              // Même s'il fait "retour arrière" dans la seconde, la porte est fermée.
+                              ref.read(playerProvider.notifier).markDailyQuizAsPlayed();
                               context.push(AppRoutes.quiz, extra: 'Quiz du Jour');
                             }
                           },

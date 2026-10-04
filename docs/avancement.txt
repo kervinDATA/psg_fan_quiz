@@ -11035,51 +11035,10 @@ git push origin main
 
 
 
---------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
----------------------------------------------------------------------
 
 Tu as désormais entre les mains un jeu multijoueur privé complet. Le lobby, le code secret, le match du jour, le classement en direct et la remise des trophées... Tout est là !
 
@@ -11094,58 +11053,15 @@ Option C : Les Confettis 🎊 Ajouter une belle animation de confettis (avec le 
 
 
 
+-------------------------------------------------------------------------------------------------
 
+[04 Octobre 2026] - S�CURIT� & ANTI-TRICHE (Quiz du Jour)
 
+Correction majeure de s�curit� impl�ment�e aujourd'hui :
+- R�solution du probl�me de permissions Firestore (erreur "profil introuvable") en autorisant l'acc�s aux utilisateurs connect�s.
+- Verrouillage imm�diat du Quiz du Jour : D�s que l'utilisateur clique sur "JOUER LE MATCH", la partie est marqu�e comme jou�e dans la base de donn�es. Ceci emp�che de recommencer le match en utilisant le bouton "Retour" du navigateur Web.
+- Abandon automatique (PopScope & Dispose) : Impl�mentation d'un garde-fou dans quiz_screen.dart. Si le navigateur Web force le retour arri�re, la destruction de l'�cran (dispose) d�tecte que le quiz n'a pas �t� termin� proprement et sauvegarde automatiquement le score actuel.
+- Remplacement de l'ancien bouton retour par une popup "Abandonner le match ?" pour pr�venir les sorties accidentelles.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+La m�canique de la ligue est d�sormais parfaitement �tanche et s�curis�e.
 
