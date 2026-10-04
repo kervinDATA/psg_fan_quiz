@@ -11065,3 +11065,11 @@ Correction majeure de s�curit� impl�ment�e aujourd'hui :
 
 La m�canique de la ligue est d�sormais parfaitement �tanche et s�curis�e.
 
+
+-------------------------------------------------------------------------------------------------
+
+[04 Octobre 2026] - DEPLOIEMENT EN PRODUCTION ðŸŒ
+
+L'application a ete compilee avec succes pour le Web et deployee sur Firebase Hosting.
+Le jeu est desormais officiellement en ligne et accessible a l'adresse suivante :
+https://psg-fan-quiz.web.app

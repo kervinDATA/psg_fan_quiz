@@ -295,6 +295,10 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
                   style: AppTypography.body.copyWith(fontWeight: FontWeight.bold),
                 ),
               ),
+              
+            // 🔴 NOUVEAU : Espace supplémentaire pour remonter légèrement le bouton
+            // afin d'éviter qu'il soit coupé par la barre de navigation d'iOS/Android
+            AppSpacing.h24,
           ],
         ),
       ),
